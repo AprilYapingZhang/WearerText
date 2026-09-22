@@ -1,0 +1,80 @@
+[
+  {
+    "id": "L1.1",
+    "name": "Dynamic Text Recognition (DTR)",
+    "definition": "Transcribe scene text from unstable egocentric views with head motion and viewpoint changes.",
+    "example": "“I was walking fast and missed the phone number on that red sign. Can you tell me what it was?”"
+  },
+  {
+    "id": "L1.2",
+    "name": "Dynamic Text Localization (DTL)",
+    "definition": "Locate queried text regions in dynamic frames and describe where they appear in the observed scene.",
+    "example": "“Where is the floor and unit number located on the billboard?”"
+  },
+  {
+    "id": "L2.1",
+    "name": "Query-Guided Text Extraction (QTE)",
+    "definition": "Select and extract relevant information from dense environmental text according to the user's query.",
+    "example": "“How many years has this `Dianmao' restaurant been specializing in Peking Duck?”"
+  },
+  {
+    "id": "L2.2",
+    "name": "Confirmation (CF)",
+    "definition": "Verify the user's prior belief or memory using current visual-textual evidence.",
+    "example": "“The sign says `Floor 4'. I'm in the mall now; this shop is on the 4th floor, right?”"
+  },
+  {
+    "id": "L2.3",
+    "name": "Cross-Lingual Understanding (CLU)",
+    "definition": "Interpret abbreviations, symbols, pinyin, or multilingual identifiers within the physical context.",
+    "example": "“What does `DIANMAO' at the top of the sign represent in this context?”"
+  },
+  {
+    "id": "L2.4",
+    "name": "Situated Semantic Interpretation (SSI)",
+    "definition": "Interpret the semantic meaning of slogans, signs, or brand descriptions beyond literal recognition.",
+    "example": "“What does the slogan `Unmatched in Beijing, Renowned Everywhere' imply about this brand?”"
+  },
+  {
+    "id": "L2.5",
+    "name": "Wearer-Centered Situational Inference (WSI)",
+    "definition": "Infer scene-level attributes or venue suitability by grounding text in the wearer's current situation.",
+    "example": "“Based on the style and the `20-year' claim, is this a good place to treat friends to authentic local food?”"
+  },
+  {
+    "id": "L3.1",
+    "name": "History-Conditioned Intent Inference (HII)",
+    "definition": "Infer the wearer's current intent by combining previous scene-text observations with the current view.",
+    "example": "“I'm tempted by the duck but have a meeting soon. Are there any `fast-eating' sets mentioned?”"
+  },
+  {
+    "id": "L3.2",
+    "name": "Action-Trajectory Intent Prediction (AIP)",
+    "definition": "Interpret the wearer's view trajectory to predict latent goals or possible next actions.",
+    "example": "“I looked at the coffee shop sign and then the arrow sign. Am I trying to find the coffee shop?”"
+  },
+  {
+    "id": "L3.3",
+    "name": "Structured Text Synthesis (STS)",
+    "definition": "Integrate structured textual sources, such as menus, or floor boards, while preserving their layout logic.",
+    "example": "“Translate the entire list of stores on this directory into English for me.”"
+  },
+  {
+    "id": "L3.4",
+    "name": "Spatio-Temporal Navigation Reasoning (STN)",
+    "definition": "Provide action guidance by integrating current location, target text, and movement cues over time.",
+    "example": "“I see the `Floor 4' ad now. What is the fastest way for me to get to the actual store from here?”"
+  },
+  {
+    "id": "L3.5",
+    "name": "Goal-Oriented Comparison (GOC)",
+    "definition": "Compare text-described options across the video and select the one that matches the wearer's goal.",
+    "example": "“Considering both `Professionalism' and `Price', is this shop a better choice than a fast-food outlet?”"
+  },
+  {
+    "id": "L3.6",
+    "name": "Viewpoint Trajectory Description (VTD)",
+    "definition": "Describe how the wearer's viewpoint changes over time relative to text-bearing signs or directories.",
+    "example": "“Describe how my viewpoint changed.”"
+  }
+]

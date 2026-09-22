@@ -1,0 +1,4 @@
+datasets>=4,<5
+huggingface_hub>=0.34,<2
+Pillow>=10
+pypdf>=5

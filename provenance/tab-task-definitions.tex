@@ -1,0 +1,96 @@
+\begin{table*}[t]
+  \centering
+  \small
+  \caption{Hierarchy of Wearer-Centered Scene Text Understanding Tasks and Examples in {WearerText}.}
+  \label{tab:ar-text-tasks}
+  \setlength{\tabcolsep}{.4em}
+  \fontsize{8.5}{10.5}\selectfont
+  \resizebox{.95\linewidth}{!}{
+    % \begin{tabular}{@{} c l p{0.38\linewidth} p{0.42\linewidth} @{}}
+    \begin{tabular}{@{} c@{\hspace{0.38em}} l p{0.38\linewidth} p{0.38\linewidth} @{}}
+      \toprule
+      \textbf{Task ID} & \textbf{Task Name} & \textbf{Task Definition} & \textbf{Examples} \\
+      \midrule
+
+      \rowcolor{ModelGreen}
+      \multicolumn{4}{c}{
+      \textbf{Level 1: Text Perception.}
+      \textit{Can the model \textsc{SEE} and \textsc{LOCALIZE} unstable visible text in dynamic AI-glasses videos?}
+      } \\
+      \midrule
+      L1.1 & \makecell[l]{Dynamic Text\\Recognition (DTR)}
+    %   L1.1   & Dynamic Text Recognition
+           & Transcribe scene text from unstable egocentric views with head motion and viewpoint changes.
+           & ``I was walking fast and missed the phone number on that red sign. Can you tell me what it was?'' \\
+      L1.2 & \makecell[l]{Dynamic Text\\Localization (DTL)}
+           & Locate queried text regions in dynamic frames and describe where they appear in the observed scene.
+           & ``Where is the floor and unit number located on the billboard?'' \\
+
+      \midrule
+      \rowcolor{ModelGreen}
+      \multicolumn{4}{c}{
+      \textbf{Level 2: Contextual Understanding.}
+      \textit{Can the model \textsc{GROUND} relevant text in the wearer's surrounding context?}
+      } \\
+      \midrule
+
+      L2.1 & \makecell[l]{Query-Guided\\Text Extraction (QTE)}
+           & Select and extract relevant information from dense environmental text according to the user's query.
+           & ``How many years has this `Dianmao' restaurant been specializing in Peking Duck?'' \\
+
+      L2.2 & Confirmation (CF)
+           & Verify the user's prior belief or memory using current visual-textual evidence.
+           & ``The sign says `Floor 4'. I'm in the mall now; this shop is on the 4th floor, right?'' \\
+
+      L2.3 & \makecell[l]{Cross-Lingual\\Understanding (CLU)}
+           & Interpret abbreviations, symbols, pinyin, or multilingual identifiers within the physical context.
+           & ``What does `DIANMAO' at the top of the sign represent in this context?'' \\
+
+      L2.4 & \makecell[l]{Situated Semantic\\Interpretation (SSI)}
+           & Interpret the semantic meaning of slogans, signs, or brand descriptions beyond literal recognition.
+           & ``What does the slogan `Unmatched in Beijing, Renowned Everywhere' imply about this brand?'' \\
+
+      L2.5 & \makecell[l]{Wearer-Centered\\Situational Inference (WSI)}
+           & Infer scene-level attributes or venue suitability by grounding text in the wearer's current situation.
+           & ``Based on the style and the `20-year' claim, is this a good place to treat friends to authentic local food?'' \\
+
+      \midrule
+      \rowcolor{ModelGreen}
+      \multicolumn{4}{c}{
+      \textbf{Level 3: Wearer-Grounded Reasoning.}
+      \textit{Can the model \textsc{REASON} and \textsc{ASSIST} according to viewpoint trajectories and user goals?}
+      } \\
+      \midrule
+
+      L3.1 & \makecell[l]{History-Conditioned\\Intent Inference (HII)}
+           & Infer the wearer's current intent by combining previous scene-text observations with the current view.
+           & ``I'm tempted by the duck but have a meeting soon. Are there any `fast-eating' sets mentioned?'' \\
+
+      L3.2 & \makecell[l]{Action-Trajectory\\Intent Prediction (AIP)}
+           & Interpret the wearer's view trajectory to predict latent goals or possible next actions.
+           & ``I looked at the coffee shop sign and then the arrow sign. Am I trying to find the coffee shop?'' \\
+
+      L3.3 & \makecell[l]{Structured Text\\Synthesis (STS)}
+           & Integrate structured textual sources, such as menus, or floor boards, while preserving their layout logic.
+           & ``Translate the entire list of stores on this directory into English for me.'' \\
+
+      L3.4 & \makecell[l]{Spatio-Temporal\\Navigation Reasoning (STN)}
+           & Provide action guidance by integrating current location, target text, and movement cues over time.
+           & ``I see the `Floor 4' ad now. What is the fastest way for me to get to the actual store from here?'' \\
+
+      L3.5 & \makecell[l]{Goal-Oriented\\ Comparison (GOC)}
+           & Compare text-described options across the video and select the one that matches the wearer's goal.
+           & ``Considering both `Professionalism' and `Price', is this shop a better choice than a fast-food outlet?'' \\
+
+      L3.6 & \makecell[l]{Viewpoint Trajectory\\Description (VTD)}
+           & Describe how the wearer's viewpoint changes over time relative to text-bearing signs or directories.
+           & ``Describe how my viewpoint changed.'' \\
+      \bottomrule
+    \end{tabular}
+  }
+\end{table*}
+
+
+
+
+

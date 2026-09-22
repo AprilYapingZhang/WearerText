@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="WearerText: 1,101 AI-glasses videos, 15,336 QA pairs, and 13 tasks for wearer-centered scene text understanding.">
+<meta name="theme-color" content="#26724f">
+<meta property="og:title" content="WearerText — Understanding text from the wearer’s perspective"><meta property="og:type" content="website"><meta property="og:image" content="assets/teaser.webp">
+<title>WearerText | Wearer-Centered Scene Text Understanding</title>
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="style.css">
+<script src="site-config.js" defer></script><script src="assets/site-data.js" defer></script><script src="app.js" defer></script>
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="hero">
+<div class="brand"><svg viewBox="0 0 66 30" aria-hidden="true"><path d="M3 8h21l5 4h8l5-4h21M4 8l3 15h17l4-11m34-4-3 15H42l-4-11M2 3l2 5m60-5-2 5"/></svg> WearerText</div>
+<h1><span>WearerText:</span> Benchmarking Wearer-Centered<br class="wide-break"> Scene Text Understanding in AI-Glasses Videos</h1>
+<div id="authors" class="authors" aria-label="Authors"></div>
+<div class="affiliations"><sup>1</sup> Institute of Automation, Chinese Academy of Sciences<br><sup>2</sup> School of Artificial Intelligence, University of Chinese Academy of Sciences<br><sup>3</sup> SRCB, Samsung</div>
+<p class="corresponding"><sup>†</sup> Corresponding author: Chengqing Zong</p>
+<div class="resource-links">
+<a class="pill" href="assets/WearerText.pdf"><span aria-hidden="true">▤</span> Paper</a>
+<a class="pill" data-repo href="https://github.com/AprilYapingZhang/WearerText"><span aria-hidden="true">⌘</span> Code</a>
+<a class="pill" data-dataset href="https://huggingface.co/datasets/AI4Reading/WearerTextBench"><span aria-hidden="true">▱</span> Dataset</a>
+<a class="pill" href="#leaderboard"><span aria-hidden="true">▥</span> Leaderboard</a>
+<a class="pill" href="#vereval"><span aria-hidden="true">✓</span> VerEval</a>
+</div><p class="tagline">Beyond reading visible text. <strong>Read the right text, for the wearer.</strong></p>
+</header>
+<nav class="section-nav" aria-label="Page sections"><a href="#abstract">Overview</a><a href="#tasks">Tasks</a><a href="#explore">Explore</a><a href="#leaderboard">Results</a><a href="#dataset">Dataset</a><a href="#vereval">Evaluation</a></nav>
+<main id="main">
+<section id="abstract" class="section soft"><div class="reading"><h2>Abstract</h2><p id="abstract-text" class="abstract"></p></div>
+<div class="stats" aria-label="Full benchmark statistics reported in the paper"><div><strong>1,101</strong><span>AI-glasses videos</span></div><div><strong>15,336</strong><span>Question–answer pairs</span></div><div><strong>13</strong><span>Wearer-centered tasks</span></div><div><strong>20</strong><span>Evaluated MLLMs</span></div></div>
+<p class="caption">Full benchmark reported in the paper. This release contains the test split: 107 videos · 1,391 QA pairs.</p></section>
+<section class="section wrap"><p class="eyebrow">The wearer’s perspective</p><h2>Seeing is not the same as attending.</h2><p class="section-intro">Without a camera-frame preview, the recorded view does not necessarily reflect the wearer’s attention. Understanding text requires grounding it in position, viewpoint trajectory, and goal.</p>
+<figure><a href="assets/teaser.webp" target="_blank" rel="noopener"><img class="teaser" src="assets/teaser.webp" width="2200" height="1484" alt="Camera-preview videos versus AI-glasses videos: true attention can differ from camera view."></a><figcaption>Camera view ≠ true gaze. WearerText studies camera-view trajectories; the recordings do not include eye-tracking signals.</figcaption></figure></section>
+<section id="tasks" class="section soft"><div class="wrap"><p class="eyebrow">A three-level diagnostic hierarchy</p><h2>Perceive. Understand. Reason.</h2><p class="section-intro">From unstable text perception to wearer-view alignment and goal-oriented reasoning.</p><div id="task-grid" class="task-grid"></div><p class="caption">Final task IDs: L2.5 = WSI · L3.3 = STS. Click a task for its definition and a paper example.</p></div></section>
+<section id="explore" class="section wrap"><p class="eyebrow">Inside WearerTextBench</p><h2>Explore the test set</h2><p class="section-intro">Browse original questions and verified reference answers. Each video is paired with all 13 tasks.</p>
+<div class="explore-tools"><label>Task<select id="task-filter"><option value="all">All 13 tasks</option></select></label><label class="grow">Search<input id="qa-search" type="search" placeholder="Search question, answer or video ID…"></label><span id="qa-count" role="status"></span></div>
+<div class="example-layout"><div class="video-panel"><video id="example-video" controls playsinline preload="none" aria-label="Selected benchmark video"></video><p id="video-status">Video streaming becomes available after the dataset is published on Hugging Face.</p><a id="video-download" href="https://huggingface.co/datasets/AI4Reading/WearerTextBench/tree/main/test">Open video file ↗</a></div><article class="qa-panel"><span id="example-task" class="badge"></span><h3 id="example-name"></h3><p id="example-id" class="mono muted"></p><p class="qa-label">Question</p><p id="example-question" lang="zh"></p><details open><summary>Reference answer</summary><p id="example-answer" lang="zh"></p></details><div class="pager"><button id="prev-example" type="button">← Previous</button><span id="example-index"></span><button id="next-example" type="button">Next →</button></div></article></div>
+<p class="caption">Original-language annotations, not model predictions. <a href="data/test.json" download>Download all test annotations (JSON)</a>.</p></section>
+<section id="leaderboard" class="section soft"><div class="wrap wide"><p class="eyebrow">Experimental results</p><h2>WearerText leaderboard</h2><p class="section-intro">All 20 models from the latest manuscript. VerEval scores on a 0–100 scale; higher is better.</p>
+<div class="formula"><strong>VerEval</strong> = 0.9 × Consistency + 0.1 × Logic <span>Fact is an intermediate diagnostic.</span></div>
+<div class="table-tools"><label>Model family<select id="model-family"><option value="all">All models</option><option>Closed-source Models</option><option>Open-source Models</option><option>Open-source Video Models</option></select></label><label>Order<select id="model-sort"><option value="score">Overall score ↓</option><option value="paper">Paper order</option></select></label><a href="data/leaderboard.csv" download>Download CSV ↓</a></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Scrollable leaderboard"><table id="results-table"><caption class="sr-only">Manuscript VerEval results for 13 tasks and overall score</caption><thead id="results-head"></thead><tbody id="results-body"></tbody></table></div>
+<p class="caption">Overall values are taken directly from the paper, not recomputed from rounded task scores. <strong>Bold</strong> marks column-best scores across all 20 models. Scroll horizontally for every task.</p>
+<p class="source-note">Source: <a href="provenance/exp-main-results-tab.tex">latest LaTeX results table</a>. OCR-only/no-layout diagnostic results are not mixed into this main leaderboard.</p></div></section>
+<section id="dataset" class="section wrap"><p class="eyebrow">Data &amp; construction</p><h2>Real scenes. Verified evidence.</h2><p class="section-intro">Shopping, transportation, and tourist scenarios recorded with AI glasses. Multi-agent checks and human verification support the benchmark’s construction.</p>
+<figure><a href="assets/construction.webp" target="_blank" rel="noopener"><img src="assets/construction.webp" loading="lazy" alt="MAH-V: hierarchical tasks, reference text, hybrid QA generation, multi-agent checks and human verification."></a><figcaption>MAH-V: multi-agent hybrid verification for QA construction. VerEval reuses the scoring-agent design for evaluating model answers.</figcaption></figure>
+<div class="dataset-columns"><div><h3>Release at a glance</h3><table class="split-table"><thead><tr><th>Split</th><th>Videos</th><th>QA pairs</th><th>Availability</th></tr></thead><tbody><tr><td>Train</td><td>994</td><td>13,945</td><td>Not in this release</td></tr><tr><td>Test</td><td>107</td><td>1,391</td><td>Included</td></tr><tr><td>Full benchmark</td><td>1,101</td><td>15,336</td><td>Paper total</td></tr></tbody></table><p class="muted">Test videos are stored once and referenced by their QA rows. IDs follow <code>{level}_{task_id}_{suffix}</code>.</p></div><div><h3>Load from Hugging Face</h3><pre><code>from datasets import load_dataset, Video
+
+ds = load_dataset(
+    "AI4Reading/WearerTextBench",
+    split="test",
+)
+# Read paths without a video decoder.
+ds = ds.cast_column("video", Video(decode=False))
+print(ds[0]["question"])</code></pre><p class="muted">Available after the prepared dataset repository is uploaded. <a data-dataset href="https://huggingface.co/datasets/AI4Reading/WearerTextBench">Dataset card and use policy ↗</a></p></div></div>
+<details class="figure-details"><summary>Dataset statistics from the paper</summary><div class="dataset-columns"><div><h3>Recording scenarios</h3><table class="split-table"><tbody><tr><td>Shopping centers</td><td>378 videos</td></tr><tr><td>Transportation hubs</td><td>412 videos</td></tr><tr><td>Tourist destinations</td><td>311 videos</td></tr></tbody></table><h3>Wearable-video conditions</h3><p>Viewpoint changes: <strong>72.0%</strong><br>Briefly visible text: <strong>33.7%</strong><br>Visible motion blur: <strong>4.8%</strong></p><p class="muted">Conditions overlap; a video can contain more than one.</p></div><div><h3>Question–answer languages</h3><table class="split-table"><tbody><tr><td>Chinese</td><td>67.59%</td></tr><tr><td>English</td><td>16.40%</td></tr><tr><td>Mixed Chinese–English</td><td>15.19%</td></tr><tr><td>Other</td><td>0.82%</td></tr></tbody></table><p class="muted">Full-benchmark statistics from the latest appendix, not estimates from the released test split.</p></div></div></details></section>
+<section id="vereval" class="section soft"><div class="wrap"><p class="eyebrow">Verified-Evidence Evaluation</p><h2>VerEval</h2><p class="section-intro">A three-agent protocol that checks factual anchors, logical rigor, and overall consistency.</p>
+<div class="eval-flow"><div><span class="step">01</span><h3>Fact scorer</h3><p>Numbers, names, places, omissions, and hallucinations.</p></div><span class="flow-plus" aria-hidden="true">+</span><div><span class="step">02</span><h3>Logic scorer</h3><p>Question understanding and spatio-temporal reasoning.</p></div><span class="flow-plus" aria-hidden="true">→</span><div><span class="step">03</span><h3>Consistency scorer</h3><p>Reviews both scores and reasons with the answer and evidence.</p></div></div>
+<div class="dataset-columns"><div><h3>One interface, two backends</h3><p>Use an OpenAI model or a vLLM-hosted, OpenAI-compatible service. Validate IDs, record reasons, resume completed runs, and report per-task and per-level results.</p><p><strong>Main-table protocol.</strong> Evidence-based mode uses the question, prediction and verified ground truth, without video frames. The paper uses a local Qwen3-VL-32B judge, temperature 0, a 1,024-token cap and a deterministic seed. Video-frame judging is optional.</p><a class="text-link" href="EVALUATION.md">Read the evaluation guide →</a></div><div><pre><code>python -m vereval \
+  --benchmark data/test.json \
+  --predictions predictions.jsonl \
+  --backend vllm \
+  --base-url http://localhost:8000/v1 \
+  --model YOUR_SERVED_JUDGE \
+  --evidence-mode evidence_based \
+  --temperature 0 --max-tokens 1024 \
+  --seed 42 \
+  --output outputs/my-run</code></pre></div></div></div></section>
+<section class="section wrap"><h2>Where do models struggle?</h2><p class="section-intro">Recognizing individual words is only a starting point. Structured text synthesis and viewpoint-trajectory description remain difficult in the manuscript’s evaluation.</p><details class="figure-details"><summary>View qualitative examples from the paper</summary><figure><img src="assets/failure-cases.webp" loading="lazy" alt="Qualitative failure cases from the WearerText manuscript."></figure></details></section>
+<section id="citation" class="section soft"><div class="reading"><div class="citation-title"><h2>Citation</h2><button id="copy-citation" type="button">Copy BibTeX</button></div><pre><code id="bibtex"></code></pre><p class="caption">Project-manuscript citation; update when an archival version is available. <a href="data/citation.bib" download>Download .bib</a></p><p id="copy-status" role="status"></p></div></section>
+</main>
+<footer><a href="#">WearerText</a><p>Understanding scene text from the wearer’s perspective.</p><p>Layout inspired by <a href="https://mme-videoocr.github.io/">MME-VideoOCR</a>. Built from the latest local manuscript and released annotations.</p></footer>
+<noscript><p class="notice">Enable JavaScript for the authors, leaderboard and interactive examples. <a href="data/leaderboard.csv">Results CSV</a> · <a href="data/test.json">Test annotations</a></p></noscript>
+</body></html>

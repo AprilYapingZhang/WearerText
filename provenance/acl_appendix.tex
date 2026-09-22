@@ -1,0 +1,356 @@
+\clearpage
+\appendix
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Dataset Statistics}
+\label{sec:dataset_statistics}
+
+We summarize the statistics of \textbf{WearerText} in Table~\ref{tab:detailed_data_stats}. The dataset consists of 1,101 real-world egocentric videos collected in three text-rich scenarios---shopping centers, transportation hubs, and tourist destinations---and contains 15,336 question--answer pairs spanning diverse perceptual, contextual, and reasoning-oriented tasks. \revion{Figure~\ref{fig:per_task_examples} presents representative qualitative examples across all 13 WearerText tasks. The examples illustrate the progression from dynamic text perception (L1), through contextual understanding (L2), to wearer-grounded reasoning over goals, history, and viewpoint trajectories (L3).}
+
+The collection spans sub-domains such as restaurants, supermarkets, menus, subway and railway stations, airports, street scenes, parks, and museums. Common wearable-video conditions related to the challenges discussed in the main paper are intentionally preserved: 72.0\% of videos contain viewpoint changes, 33.7\% contain briefly visible text, and 4.8\% contain visible motion blur. These conditions are not mutually exclusive, since a single video may contain multiple challenges. We view this coverage as diagnostic rather than exhaustive; broader geographic and linguistic expansion remains future work.
+
+The benchmark primarily covers Chinese and English language settings. Most QA pairs are in Chinese (67.59\%), while English and mixed Chinese-English QA pairs account for 16.40\% and 15.19\%, respectively. At the video level, 29.22\% of the visible scene text is Chinese-only, while 69.15\% contains mixed Chinese-English text, reflecting the multilingual nature of everyday embodied text environments.
+
+% We reserve 1{,}391 QA pairs as the held-out test split used for all zero-shot model evaluations and human-alignment analysis in the main paper. The remaining 13{,}945 QA pairs form a separate train split that is reserved for the MAH-V SFT ablation (Table ~\ref{tab:qwen_ablation}) and is \emph{not} used to tune the zero-shot baselines on the leaderboard; the fine-tuned Qwen2.5-VL-7B numbers therefore should not be compared directly with the zero-shot rows in Table~\ref{tab:final_overall_results}.
+
+\revion{We reserve 1{,}391 QA pairs as the held-out test split used for the complete 13-task zero-shot leaderboard and human-alignment analysis in the main paper. The remaining 13{,}945 QA pairs form a separate training pool and are never used to tune the zero-shot leaderboard models. The controlled Qwen2.5-VL-7B SFT comparison in Table~\ref{tab:qwen_ablation} evaluates v0, v1, and v2 on the same 11-task subset (L1.1--L3.4), excluding L3.5 and L3.6; its absolute scores are therefore not directly comparable to the complete 13-task results in Table~\ref{tab:final_overall_results}.}
+
+
+\begin{table}[t]
+\centering
+\caption{Statistics of \textbf{WearerText}. Wearable-video condition percentages are non-exclusive: one video may contain multiple conditions.}
+\label{tab:detailed_data_stats}
+\small
+\begin{tabular}{@{}l@{\hspace{0.8em}}r@{}}
+\toprule
+\textbf{Statistic} & \textbf{Value} \\
+\midrule
+Total Videos & 1,101 \\
+Total Questions & 15,336 \\
+\midrule
+\multicolumn{2}{@{}l}{\textbf{By Scenario}} \\
+\quad Shopping Centers & 378 videos \\
+\quad Transportation Hubs & 412 videos \\
+\quad Tourist Destinations & 311 videos \\
+\midrule
+\multicolumn{2}{@{}l}{\textbf{Wearable-Video Conditions (non-exclusive)}} \\
+\quad Viewpoint Changes & 72.0\% videos \\
+\quad Briefly Visible Text & 33.7\% videos \\
+\quad Visible Motion Blur & 4.8\% videos \\
+\midrule
+\multicolumn{2}{@{}l}{\textbf{QA Language}} \\
+\quad Chinese & 67.59\% \\
+\quad English & 16.40\% \\
+\quad Mixed Chinese-English & 15.19\% \\
+\quad Other & 0.82\% \\
+\midrule
+\multicolumn{2}{@{}l}{\textbf{Video Text Language}} \\
+\quad Chinese & 29.22\% \\
+\quad Mixed Chinese-English & 69.15\% \\
+\midrule
+\multicolumn{2}{@{}l}{\textbf{Verification Split}} \\
+\quad Test Set & 1,391 QAs / 107 videos \\
+\quad Train Set & 13,945 QAs / 994 videos \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+
+
+
+\begin{figure*}[t]
+  \centering
+  \includegraphics[width=\textwidth]{figures/Figure-Examples.pdf}
+  \caption{\revion{Per-task qualitative examples from WearerText. The examples cover all 13 tasks in the three-level hierarchy and pair representative frames from AI-glasses videos with the corresponding bilingual wearer-centered queries.}}
+  \label{fig:per_task_examples}
+\end{figure*}
+
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Multi-Faceted Per-Task Evaluation}
+\label{sec:multi_eval}
+
+To complement VerEval, we also report two surface-similarity metrics so that readers can compare \dataset~models under traditional VQA scoring conventions:
+(1) \textbf{ANLS} (Average Normalized Levenshtein Similarity) measures exact string accuracy via normalized Levenshtein similarity (edit distance divided by the longer string length), shown in Table~\ref{tab:anls_results}.
+(2) \textbf{SAS} (Semantic Answer Similarity) measures the semantic similarity between the predicted answer and the ground truth answer, so paraphrased but equivalent answers still score highly, shown in Table~\ref{tab:sas_results}.
+
+% ========================================
+% ANLS Score Table
+% ========================================
+\begin{table*}[t]
+\caption{ANLS Performance. \textbf{Bold} indicates the best, \underline{Underline} indicates the second best. Task abbreviations: DTR (Dynamic Text Recognition), DTL (Dynamic Text Localization), QTE (Query-Guided Text Extraction), CF (Confirmation), CLU (Cross-Lingual Understanding), SSI (Situated Semantic Interpretation), WSI (Wearer-Centered Situational Inference), HII (History-Conditioned Intent Inference), AIP (Action-Trajectory Intent Prediction), STS (Structured Text Synthesis), STN (Spatio-Temporal Navigation Reasoning), GOC (Goal-Oriented Comparison), VTD (Viewpoint Trajectory Description).}
+\label{tab:anls_results}
+\centering
+\resizebox{\textwidth}{!}{
+\begin{tabular}{l | cc | ccccc | cccccc | c}\Xhline{1pt}
+\textbf{Model} & \multicolumn{2}{c|}{\textbf{L1: Perception}} & \multicolumn{5}{c|}{\textbf{L2: Understanding}} & \multicolumn{6}{c|}{\textbf{L3: Wearer-Grounded Reasoning}} & \textbf{Overall} \\
+ & \textbf{L1.1} & \textbf{L1.2} & \textbf{L2.1} & \textbf{L2.2} & \textbf{L2.3} & \textbf{L2.4} & \textbf{L2.5} & \textbf{L3.1} & \textbf{L3.2} & \textbf{L3.3} & \textbf{L3.4} & \textbf{L3.5} & \textbf{L3.6} & \textbf{AVG} \\
+ & \textbf{DTR} & \textbf{DTL} & \textbf{QTE} & \textbf{CF} & \textbf{CLU} & \textbf{SSI} & \textbf{WSI} & \textbf{HII} & \textbf{AIP} & \textbf{STS} & \textbf{STN} & \textbf{GOC} & \textbf{VTD} & \\
+\Xhline{1pt}
+\multicolumn{15}{l}{\emph{Closed-source Models}} \\
+GPT-5.2 & \textbf{62.4} & \textbf{19.7} & \underline{20.3} & 8.6 & \textbf{16.4} & \textbf{23.0} & 15.9 & 0.5 & 0.0 & 0.6 & 0.0 & 0.0 & 0.0 & \cellcolor{gray!15}{12.9} \\
+Gemini-3-Pro & 59.0 & 18.7 & \textbf{29.9} & \textbf{21.0} & 19.1 & \underline{30.3} & \textbf{20.0} & \textbf{3.2} & \textbf{0.0} & \textbf{1.5} & \textbf{0.0} & \textbf{1.6} & \underline{6.6} & \cellcolor{gray!15}{\textbf{16.2}} \\
+Claude-Opus-4.5 & 68.8 & \underline{20.6} & 27.9 & \underline{9.8} & 6.5 & 18.3 & \underline{19.6} & 0.0 & 0.0 & 0.0 & 0.0 & 0.5 & 0.0 & \cellcolor{gray!15}{13.2} \\
+Qwen3-VL-PLUS & \underline{73.1} & 20.0 & \underline{29.9} & 13.9 & \underline{10.5} & 21.4 & 18.2 & 0.5 & 0.0 & 0.5 & 0.0 & 0.0 & 0.0 & \cellcolor{gray!15}{\underline{14.5}} \\
+Seed-1.6 & 72.4 & 17.5 & 32.9 & 10.7 & 7.5 & 19.7 & 20.7 & \underline{1.9} & 0.0 & 0.0 & 0.0 & 0.0 & \textbf{5.1} & \cellcolor{gray!15}{14.5} \\
+\hline
+\multicolumn{15}{l}{\emph{Open-source Models}} \\
+InternVL3.5-8B & 34.6 & 2.7 & 6.6 & 3.4 & 3.7 & 3.9 & 1.1 & 0.0 & 0.0 & 0.0 & 0.0 & 0.0 & 1.2 & \cellcolor{gray!15}{4.4} \\
+InternVL3.5-38B & 51.2 & 16.9 & 10.5 & 1.6 & 2.7 & 7.7 & 7.2 & 0.0 & 0.0 & 0.0 & 0.0 & 0.0 & 14.9 & \cellcolor{gray!15}{8.7} \\
+Qwen2.5-VL-3B & 43.9 & 7.0 & 7.8 & 5.4 & 3.4 & 6.1 & 6.4 & 0.7 & 0.0 & 0.5 & 0.0 & 0.0 & 22.9 & \cellcolor{gray!15}{8.0} \\
+Qwen2.5-VL-7B & 50.4 & 3.8 & 13.3 & 5.9 & 9.3 & 10.8 & 5.0 & 0.6 & 0.0 & 0.0 & 0.0 & 0.0 & 20.0 & \cellcolor{gray!15}{9.1} \\
+Qwen2.5-VL-32B & 61.1 & 12.2 & 15.0 & 4.6 & 8.4 & 9.6 & 11.6 & 0.5 & 0.0 & 0.0 & 0.0 & 0.0 & 12.7 & \cellcolor{gray!15}{10.4} \\
+Qwen3-VL-4B & 55.3 & 20.7 & 13.0 & 4.0 & 9.8 & 11.0 & 8.5 & 0.6 & 0.0 & 0.5 & 0.0 & 0.0 & 9.9 & \cellcolor{gray!15}{10.3} \\
+Qwen3-VL-8B & 61.1 & 16.4 & 20.2 & 2.8 & 8.9 & 14.1 & 11.2 & 0.0 & 0.0 & 0.0 & 0.0 & 0.0 & 0.0 & \cellcolor{gray!15}{10.4} \\
+Qwen3-VL-32B & 59.7 & 15.1 & 16.0 & 4.4 & 9.2 & 11.6 & 12.7 & 0.0 & 0.0 & 0.0 & 0.0 & 0.0 & 2.4 & \cellcolor{gray!15}{10.1} \\
+GLM-4.6V-Flash-9B & 51.4 & 15.7 & 19.9 & 1.6 & 7.8 & 10.7 & 8.9 & 0.0 & 0.0 & 0.0 & 0.0 & 0.0 & 0.0 & \cellcolor{gray!15}{8.9} \\
+GLM-4.6V-106B-A12B & 62.1 & 22.1 & 21.8 & 8.3 & 9.7 & 17.8 & 10.7 & 0.5 & 0.0 & 0.0 & 0.0 & 0.0 & 12.1 & \cellcolor{gray!15}{12.7} \\
+MINICPM-V-4.5 & 51.3 & 14.7 & 23.1 & 11.2 & 3.8 & 9.6 & 6.8 & 0.0 & 0.0 & 0.0 & 0.0 & 0.0 & 0.0 & \cellcolor{gray!15}{9.3} \\
+\hline
+\multicolumn{15}{l}{\emph{Open-source Video Models}} \\
+VideoLLaMA3-7B & 16.7 & 5.2 & 1.9 & 2.2 & 1.8 & 2.7 & 2.6 & 0.0 & 0.0 & 0.0 & 0.0 & 0.0 & 0.0 & \cellcolor{gray!15}{2.5} \\
+LLaVA-NeXT-Video & 0.0 & 0.5 & 0.5 & 0.0 & 0.0 & 0.5 & 0.0 & 0.0 & 0.0 & 0.0 & 0.0 & 0.0 & 0.0 & \cellcolor{gray!15}{0.1} \\
+VideoR1-7B & 1.5 & 1.2 & 2.4 & 0.0 & 1.1 & 1.7 & 0.5 & 0.0 & 0.0 & 0.0 & 0.0 & 0.0 & 0.8 & \cellcolor{gray!15}{0.7} \\
+MOLMO-2-8B & 15.7 & 14.0 & 8.3 & 0.8 & 4.8 & 2.4 & 3.7 & 0.0 & 0.0 & 0.0 & 0.0 & 0.0 & 0.0 & \cellcolor{gray!15}{3.8} \\
+\hline
+\Xhline{1pt}
+\end{tabular}
+}
+\end{table*}
+
+% ========================================
+% SAS Score Table
+% ========================================
+\begin{table*}[t]
+\caption{SAS Performance. \textbf{Bold} indicates the best, \underline{Underline} indicates the second best. Task abbreviations: DTR (Dynamic Text Recognition), DTL (Dynamic Text Localization), QTE (Query-Guided Text Extraction), CF (Confirmation), CLU (Cross-Lingual Understanding), SSI (Situated Semantic Interpretation), WSI (Wearer-Centered Situational Inference), HII (History-Conditioned Intent Inference), AIP (Action-Trajectory Intent Prediction), STS (Structured Text Synthesis), STN (Spatio-Temporal Navigation Reasoning), GOC (Goal-Oriented Comparison), VTD (Viewpoint Trajectory Description).}
+\label{tab:sas_results}
+\centering
+\resizebox{\textwidth}{!}{
+\begin{tabular}{l | cc | ccccc | cccccc | c}\Xhline{1pt}
+\textbf{Model} & \multicolumn{2}{c|}{\textbf{L1: Perception}} & \multicolumn{5}{c|}{\textbf{L2: Understanding}} & \multicolumn{6}{c|}{\textbf{L3: Wearer-Grounded Reasoning}} & \textbf{Overall} \\
+ & \textbf{L1.1} & \textbf{L1.2} & \textbf{L2.1} & \textbf{L2.2} & \textbf{L2.3} & \textbf{L2.4} & \textbf{L2.5} & \textbf{L3.1} & \textbf{L3.2} & \textbf{L3.3} & \textbf{L3.4} & \textbf{L3.5} & \textbf{L3.6} & \textbf{AVG} \\
+ & \textbf{DTR} & \textbf{DTL} & \textbf{QTE} & \textbf{CF} & \textbf{CLU} & \textbf{SSI} & \textbf{WSI} & \textbf{HII} & \textbf{AIP} & \textbf{STS} & \textbf{STN} & \textbf{GOC} & \textbf{VTD} & \\
+\Xhline{1pt}
+\multicolumn{15}{l}{\emph{Closed-source Models}} \\
+GPT-5.2 & 84.4 & \textbf{74.4} & \underline{69.5} & \textbf{77.3} & \textbf{76.5} & \textbf{76.6} & \textbf{56.1} & \textbf{71.8} & \textbf{70.2} & \textbf{74.1} & \textbf{71.5} & \textbf{71.8} & \textbf{70.4} & \cellcolor{gray!15}{\underline{72.6}} \\
+Gemini-3-Pro & \underline{84.1} & 75.2 & \textbf{77.0} & \underline{81.7} & \underline{77.8} & \underline{78.7} & \underline{64.7} & \underline{76.4} & \underline{71.4} & \underline{76.9} & \underline{76.4} & \underline{76.7} & \underline{72.4} & \cellcolor{gray!15}{\textbf{76.1}} \\
+Claude-Opus-4.5 & 86.8 & \underline{73.1} & 76.1 & 81.5 & 72.5 & 73.4 & 63.6 & 74.0 & 72.8 & 75.3 & 76.6 & 74.4 & 74.3 & \cellcolor{gray!15}{75.0} \\
+Qwen3-VL-PLUS & \textbf{89.1} & 72.1 & 73.1 & 77.0 & 74.0 & 72.2 & 65.8 & 71.0 & 69.7 & 74.3 & 73.5 & 73.2 & 70.4 & \cellcolor{gray!15}{73.5} \\
+Seed-1.6 & 87.9 & 70.0 & 73.1 & 76.5 & 67.7 & 72.3 & 65.9 & 67.3 & 63.9 & 70.2 & 67.3 & 67.0 & 66.3 & \cellcolor{gray!15}{70.4} \\
+\hline
+\multicolumn{15}{l}{\emph{Open-source Models}} \\
+InternVL3.5-8B & 66.6 & 59.6 & 54.4 & 62.9 & 54.9 & 54.5 & 26.5 & 60.7 & 50.1 & 61.6 & 60.9 & 58.7 & 55.3 & \cellcolor{gray!15}{55.9} \\
+InternVL3.5-38B & 79.2 & 68.7 & 54.9 & 55.5 & 58.4 & 54.6 & 36.9 & 51.2 & 51.9 & 54.6 & 51.1 & 52.8 & 59.3 & \cellcolor{gray!15}{56.1} \\
+Qwen2.5-VL-3B & 75.0 & 67.7 & 64.8 & 73.6 & 62.0 & 59.7 & 34.7 & 62.0 & 64.5 & 61.2 & 62.1 & 61.0 & 54.9 & \cellcolor{gray!15}{61.8} \\
+Qwen2.5-VL-7B & 79.8 & 65.0 & 65.4 & 74.7 & 69.5 & 65.3 & 30.0 & 68.0 & 69.4 & 68.6 & 68.3 & 65.7 & 82.4 & \cellcolor{gray!15}{67.1} \\
+Qwen2.5-VL-32B & 83.2 & 69.2 & 64.1 & 76.7 & 70.0 & 65.3 & 51.7 & 64.2 & 66.5 & 67.2 & 65.9 & 65.2 & 64.5 & \cellcolor{gray!15}{67.2} \\
+Qwen3-VL-4B & 80.4 & 72.1 & 65.1 & 73.2 & 71.3 & 65.6 & 48.6 & 67.6 & 66.0 & 68.3 & 64.3 & 64.5 & 58.3 & \cellcolor{gray!15}{66.6} \\
+Qwen3-VL-8B & 82.4 & 67.7 & 65.1 & 60.8 & 70.6 & 64.5 & 56.9 & 56.1 & 62.8 & 57.1 & 55.6 & 53.1 & 64.7 & \cellcolor{gray!15}{62.9} \\
+Qwen3-VL-32B & 83.1 & 70.4 & 66.4 & 76.3 & 71.7 & 69.3 & 57.1 & 65.3 & 68.7 & 69.1 & 69.8 & 66.0 & 69.2 & \cellcolor{gray!15}{69.4} \\
+GLM-4.6V-Flash-9B & 80.3 & 63.4 & 60.3 & 44.0 & 57.1 & 57.8 & 42.7 & 46.1 & 51.5 & 47.1 & 47.0 & 46.5 & 44.7 & \cellcolor{gray!15}{53.0} \\
+GLM-4.6V-106B-A12B & 83.8 & 73.2 & 64.1 & 73.7 & 71.7 & 66.7 & 51.0 & 60.4 & 62.0 & 64.8 & 61.5 & 59.4 & 62.5 & \cellcolor{gray!15}{65.8} \\
+MINICPM-V-4.5 & 78.0 & 64.0 & 64.6 & 74.6 & 52.9 & 61.9 & 45.9 & 61.6 & 59.2 & 61.9 & 60.5 & 57.7 & 42.3 & \cellcolor{gray!15}{60.4} \\
+\hline
+\multicolumn{15}{l}{\emph{Open-source Video Models}} \\
+VideoLLaMA3-7B & 58.4 & 59.9 & 61.3 & 67.9 & 61.1 & 55.5 & 35.6 & 60.9 & 61.8 & 65.3 & 64.3 & 62.1 & 42.5 & \cellcolor{gray!15}{58.2} \\
+LLaVA-NeXT-Video & 39.6 & 56.4 & 46.5 & 60.7 & 56.0 & 48.1 & 26.5 & 54.6 & 58.3 & 57.3 & 60.3 & 57.6 & 22.7 & \cellcolor{gray!15}{49.6} \\
+VideoR1-7B & 56.8 & 61.0 & 54.8 & 64.4 & 61.4 & 63.9 & 44.1 & 55.2 & 56.1 & 54.4 & 55.9 & 52.7 & 67.9 & \cellcolor{gray!15}{57.6} \\
+MOLMO-2-8B & 56.7 & 65.2 & 54.8 & 60.2 & 63.3 & 53.9 & 34.4 & 54.7 & 56.6 & 55.3 & 53.9 & 52.0 & 37.5 & \cellcolor{gray!15}{53.7} \\
+\hline
+\Xhline{1pt}
+\end{tabular}
+}
+\end{table*}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Implementation Details}
+\label{sec:impl_details}
+
+\subsection{ Data Construction Pipeline}
+\label{sec:impl_mahv}
+The OCR tool used in this paper is PaddleOCR~\cite{paddleocr}, and the layout-aware transformation, which reorganizes OCR tokens into reading-order reference text $T_{\text{ref}}$ conditioned on detected bounding boxes, is performed by o4-mini~\cite{openai2025o4mini}; this is a separate stage from scoring and does not interact with the judge. The Fact and Consistency Agents return continuous scores in $[0,1]$; QA pairs whose Fact score falls below the acceptance threshold $\tau=0.7$ or whose Consistency Agent emits a conflict report are routed to the Refinement Agent, which is allowed up to 2 revision passes before any still-failing pair is dropped. The retained pairs then proceed to the human-verification stage. 
+
+
+
+\subsection{VerEval Judge Setup}
+\label{sec:impl_vereval}
+\revion{The VerEval judge operates in two modes. In the \emph{evidence-based mode}, it receives the prediction, question,  and verified ground truth, but not the video frames, and evaluates consistency with this verified evidence record. In the \emph{video-aware mode}, the original video is additionally provided, allowing the judge to re-examine the visual evidence directly. In this paper, all main-table results are obtained in the evidence-based mode using a fixed, locally deployed Qwen3-VL-32B judge~\cite{Qwen3-VL}. We adopt this setting for the 20-model leaderboard because it avoids additional input tokens per video and isolates the evaluated model's perception from a second judge-perception pass. The three scorers each make one call per answer. Decoding uses temperature $0$, a 1{,}024-token cap, and a deterministic seed.}
+
+\subsection{VerEval Scoring Prompts}
+\label{scoring_prompt}
+\revion{We employ three prompts for model evaluation in the VerEval framework. The {Fact Scoring Prompt} generates a structured factual assessment $S_{fact}=(s_{fact},\mathcal{R}_{fact})$ by detecting discrepancies in key information (e.g., numbers, timestamps, and entities) against video content and ground truth; it reports both a diagnostic score $s_{fact}$ and suggested corrections $\mathcal{R}_{fact}$.} The {Logic Scoring Prompt} assesses the structural integrity of the reasoning process and its alignment with spatio-temporal constraints, outputting the Logic Score (\(S_{logic}\)). The {Consistency Scoring Prompt} jointly reviews the fact judgment, logic judgment, their rationales, and the model answer, producing the Consistency Score (\(S_{consist}\)).
+\revion{In the final VerEval score, \(S_{consist}\) refers specifically to the output of the consistency-scoring prompt in Figure~\ref{fig:consistency_score_prompt}. It is not a renamed version of the Fact Agent's structured assessment \(S_{fact}\). We treat its scalar component \(s_{fact}\) as an intermediate diagnostic because the consistency scorer already checks factual evidence while also assessing whether the fact and logic judgments are mutually coherent. Empirically, raw fact scoring showed weaker separation from human judgments than the consistency and logic scores. Therefore, \(s_{fact}\) is excluded from the aggregate, and \(S_{overall}\) is computed only from \(S_{consist}\) and \(S_{logic}\).} The full scoring prompt templates are shown in Figure~\ref{fig:scoring_prompts}.
+
+
+% \subsection{VerEval Scoring Prompts}
+% \label{scoring_prompt}
+% We employ three prompts for model evaluation in the VerEval framework. The {Fact Scoring Prompt} generates a diagnostic Fact Score (\(S_{fact}\)) by detecting discrepancies in key information (e.g., numbers, timestamps, entities) against video content and ground truth. The {Logic Scoring Prompt} assesses the structural integrity of the reasoning process and its alignment with spatio-temporal constraints, outputting the Logic Score (\(S_{logic}\)). The {Consistency Scoring Prompt} jointly reviews the fact judgment, logic judgment, their rationales, and the model answer, producing the Consistency Score (\(S_{consist}\)).
+% In the final VerEval score, \(S_{consist}\) refers specifically to the output of the consistency-scoring prompt in Figure~\ref{fig:consistency_score_prompt}. It is not a renamed version of \(S_{fact}\). We treat \(S_{fact}\) as an intermediate diagnostic because the consistency scorer already checks factual evidence while also assessing whether the fact and logic judgments are mutually coherent. Empirically, raw fact scoring showed weaker separation from human judgments than the consistency and logic scores. Therefore, \(S_{fact}\) is excluded from the aggregate, and \(S_{overall}\) is computed only from \(S_{consist}\) and \(S_{logic}\). The full scoring prompt templates are shown in Figure~\ref{fig:scoring_prompts}.
+
+\begin{figure*}[p]
+  \centering
+  \begin{subfigure}{0.76\textwidth}
+    \centering
+    \includegraphics[width=\linewidth]{figures/fact_score_prompt.pdf}
+    \caption{Fact scoring prompt.}
+    \label{fig:fact_score_prompt}
+  \end{subfigure}
+  \vspace{0.4em}
+
+  \begin{subfigure}{0.76\textwidth}
+    \centering
+    \includegraphics[width=\linewidth]{figures/logic_score_prompt.pdf}
+    \caption{Logic scoring prompt.}
+    \label{fig:logic_score_prompt}
+  \end{subfigure}
+  \vspace{0.4em}
+
+  \begin{subfigure}{0.76\textwidth}
+    \centering
+    \includegraphics[width=\linewidth]{figures/consistency_score_prompt.pdf}
+    \caption{Consistency scoring prompt.}
+    \label{fig:consistency_score_prompt}
+  \end{subfigure}
+  \caption{Scoring prompt templates used in VerEval.}
+  \label{fig:scoring_prompts}
+\end{figure*}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Additional Analyses}
+\label{sec:additional}
+
+\subsection{MAH-V Quality Control Ablation}
+\label{sec:ablation_mahv}
+We perform an ablation analysis over the three quality control agents to validate their effectiveness, as shown in Table~\ref{ablation}. For each ablation, we sampled 1{,}391 QA pairs and calculated the average human acceptance over three trained annotators. Removing any quality control module decreases human acceptance: removing the Fact Checker causes the largest drop ($-9.0$ percentage points, to 86.5\%), followed by the Consistency Agent ($-7.1$ points) and the Logic Checker ($-2.8$ points). Removing all agents further degrades acceptance to 84.1\%.
+
+\begin{table}[t!]
+\centering
+\caption{Ablation study evaluating the impact of each quality control agent on the acceptability of the synthesized tasks.}
+\label{ablation}
+\resizebox{\linewidth}{!}{
+\begin{tabular}{ccc|c}
+\toprule
+\textbf{Fact Checker} & \textbf{Logical Checker} & \textbf{Consistency Agent} & \makecell{\textbf{Human} \\ \textbf{Acceptance}} \\
+\midrule
+\cross & \cross & \cross & 84.1\% \\
+\cross & \tick  & \tick  & 86.5\% \\
+\tick  & \cross & \tick  & 92.7\% \\
+\tick  & \tick  & \cross & 88.4\% \\
+\tick  & \tick  & \tick  & 95.5\% \\
+\bottomrule
+\end{tabular}
+}
+\vspace{-3mm}
+\end{table}
+
+% Complementing the end-to-end MAH-V SFT comparison in main-paper Table~\ref{tab:qwen_ablation}, we additionally ablate the layout-aware OCR transformation in Table~\ref{tab:ocr_layout_ablation}. Although the overall gap is modest, removing layout-aware reordering lowers the overall score by 1.7 points and causes a large drop on L1.2 Dynamic Text Localization (19.6~$\to$~7.3), confirming that spatial structure is especially important for text grounding.
+
+\subsection{\revion{Layout-Aware OCR Ablation}}
+\label{sec:ocr_layout_ablation}
+
+\revion{To isolate the contribution of spatial layout information, we compare layout-aware OCR with OCR tokens without layout-based reordering in Table~\ref{tab:ocr_layout_ablation}. Removing layout-aware reordering reduces the overall score by 1.7 points, demonstrating that preserving spatial structure is particularly important.}
+
+
+
+\begin{table}[t!]
+\centering
+\caption{OCR layout ablation. Scores are reported by task level and overall average.}
+\label{tab:ocr_layout_ablation}
+\small
+\begin{tabular}{lcccc}
+\toprule
+\textbf{Input} & \textbf{L1} & \textbf{L2} & \textbf{L3} & \textbf{Overall} \\
+\midrule
+OCR+Layout & \textbf{33.8} & \textbf{37.6} & 23.4 & \textbf{30.4} \\
+OCR-NoLayout & 27.2 & 35.6 & \textbf{23.6} & 28.7 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{VerEval Weighting Ablation}
+\label{sec:vereval_weighting_ablation}
+We select the final VerEval aggregation weight by maximizing alignment with human judgments on held-out annotated samples. Since \(S_{consist}\) is produced by the consistency prompt and subsumes factual conflicts as well as fact--logic coherence, it serves as the primary term; \(S_{logic}\) provides a secondary penalty for flawed reasoning chains. We report AUC (area under the ROC curve), which measures how well a metric ranks human-labeled \textit{Correct} answers above \textit{Wrong} answers; higher values indicate stronger agreement with human judgments. Table~\ref{tab:vereval_weighting_ablation} shows that the \(0.9/0.1\) consistency--logic weighting achieves the highest average AUC across annotator sets. The variance across configurations is below 0.002, indicating that VerEval is robust to the exact weighting choice rather than sensitive to parameter tuning.
+
+\begin{table}[t!]
+\centering
+\caption{VerEval weighting ablation measured by AUC against human annotations.}
+\label{tab:vereval_weighting_ablation}
+\small
+\begin{tabular}{lcccc}
+\toprule
+\textbf{Weight} & \textbf{Ann-1} & \textbf{Ann-2} & \textbf{Ann-3} & \textbf{Avg.} \\
+\midrule
+0.5 / 0.5 & 0.827 & 0.827 & 0.837 & 0.830 \\
+0.7 / 0.3 & 0.827 & 0.826 & 0.840 & 0.831 \\
+0.8 / 0.2 & \textbf{0.828} & \textbf{0.827} & \textbf{0.840} & 0.831 \\
+0.9 / 0.1 & \textbf{0.828} & \textbf{0.827} & \textbf{0.840} & \textbf{0.832} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Model-Size Scaling}
+\label{sec:scaling}
+Figure~\ref{fig:model_size_scaling} shows scaling effects for Qwen2.5-VL and Qwen3-VL. Qwen2.5-VL shows steady gains across all levels, with L1 rising by 9.9 points and L3 by 17.1 points. Conversely, Qwen3-VL displays non-monotonic patterns: while L1 and L2 scale upward, L3 performance regresses at 8B (42.7~$\to$~39.4) before recovering at 32B. These results indicate that perception scales predictably, whereas understanding and reasoning exhibit instability at scales.
+
+\subsection{Video-Pretrained Models}
+\label{sec:video_native}
+Video-native models show mixed results, with most underperforming image-based counterparts. LLaVA-NeXT-Video exhibits catastrophic failure (15.1 overall), while VideoLLaMA3-7B (40.9) and MOLMO-2-8B (35.6) trail behind similarly-sized image models like Qwen3-VL-4B (51.9). VideoR1-7B achieves competitive performance (50.4) with notable strength in L3.2 (62.4), but still struggles with Structured Text Synthesis (L3.3: 24.2) and Viewpoint Trajectory Description (L3.6: 24.6). These results suggest that conventional video pretraining on third-person, motion-centric datasets does not directly transfer to first-person, text-dense wearable scenarios where frame-level text clarity, wearer-view alignment, and semantic consistency matter more than generic motion modeling.
+
+
+\subsection{\texorpdfstring{\revion{Language-Stratified Analysis}}{Language-Stratified Analysis}}
+\label{sec:language_analysis}
+\revion{Table~\ref{tab:detailed_data_stats} provides the complete dataset breakdown by QA and scene-text language. As an additional language-stratified model check reported during rebuttal, Qwen2.5-VL-7B obtains similar VerEval scores on Chinese-only and Chinese--English mixed questions (54.5 vs. 53.9; scores are multiplied by 100). This two-group result suggests no large gap between these strata for this model.}
+
+\begin{table}[t]
+\centering
+\caption{\revion{Available language-stratified VerEval check for Qwen2.5-VL-7B.}}
+\label{tab:language_performance}
+\small
+\begin{tabular}{lc}
+\toprule
+\textbf{Question language} & \textbf{VerEval} \\
+\midrule
+Chinese-only & 54.5 \\
+Chinese--English mixed & 53.9 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{\texorpdfstring{\revion{Data Collection and Ethics}}{Data Collection and Ethics}}
+\label{sec:collection_protocol}
+\label{sec:privacy}
+
+\paragraph{\revion{Participants and Consent.}}
+\revion{Eight volunteers, all members of the research team, recorded the first-person videos. There was no external recruitment, paid crowdsourcing, or participant payment. Before recording, every participant received the collection and privacy protocol and provided informed consent with full information about the research purpose, data processing, and planned distribution. All collection procedures followed institutional ethical and privacy guidelines.}
+
+\paragraph{\revion{Intent-Driven Collection Protocol.}}
+\revion{Recording was restricted to permitted public settings in shopping, transportation, and tourism scenarios. Participants received instructions covering safety, privacy, and desired coverage of text-rich activities, but were not given scripted actions or questions. Instead, they selected genuine activities they intended to perform, such as reading a sign, confirming a location, comparing displayed options, or navigating with public text. Candidate QAs were grounded in each recorder's video evidence, after which the original recorder checked their intent alignment.}
+
+\paragraph{\revion{Expert Validation.}}
+\revion{Following MAH-V, three domain experts independently validated each candidate QA pair against the original video, verified reference text, and task definition. Annotators could correct or reject a problematic question or answer rather than merely assign an acceptability label. Final retention required unanimous approval or a 2/3 majority. This correction-and-majority procedure provides a correctness-oriented check, while the separately reported inter-annotator agreement of $\kappa=0.89$ measures the reliability of the validation decisions.}
+
+
+
+\paragraph{Face Anonymization.}
+\revion{All third-party faces in videos and global images were automatically detected and blurred while preserving the non-face scene context needed for the tasks. Human reviewers subsequently performed frame-level inspection of the processed data. Any incomplete anonymization was reprocessed and checked again before release.}
+
+\paragraph{Data Usage and Distribution.}
+{The anonymized dataset is intended exclusively for academic, non-commercial research. Its usage agreement prohibits attempts to reverse anonymization or identify individuals and requires appropriate attribution and responsible handling. Rejected or insufficiently anonymized material is excluded from the release.}
+
+
+
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \section{Reproducibility}
+% \label{sec:repro}
+% We release all scoring prompt templates used by VerEval in Section~\ref{scoring_prompt}.
+% Our codebase, including model inference and evaluation scripts, will be released through an anonymous repository at the camera-ready stage.
+% We also include environment specifications and configuration files for each experiment to ensure exact repeatability.

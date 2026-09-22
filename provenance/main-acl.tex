@@ -1,0 +1,398 @@
+%%%%%%%% ACL SUBMISSION FILE %%%%%%%%%%%%%%%%%
+
+\documentclass[11pt]{article}
+
+% Change "review" to "final" for the camera-ready version, or to
+% "preprint" for a non-anonymous version with page numbers.
+\usepackage[final]{acl}
+
+% Standard ACL package includes.
+\usepackage{times}
+\usepackage{latexsym}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\DeclareUnicodeCharacter{2248}{\ensuremath{\approx}}
+\DeclareUnicodeCharacter{2192}{\ensuremath{\rightarrow}}
+\DeclareUnicodeCharacter{2011}{-}
+\DeclareUnicodeCharacter{2013}{--}
+\DeclareUnicodeCharacter{2014}{---}
+\DeclareUnicodeCharacter{2018}{`}
+\DeclareUnicodeCharacter{2019}{'}
+\DeclareUnicodeCharacter{201C}{``}
+\DeclareUnicodeCharacter{201D}{''}
+\DeclareUnicodeCharacter{30FB}{\textperiodcentered}
+\usepackage{microtype}
+\usepackage{inconsolata}
+
+% Paper-specific packages.
+\usepackage{graphicx}
+\usepackage{subcaption}
+\usepackage{booktabs}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{mathtools}
+\usepackage{amsthm}
+\usepackage[capitalize,noabbrev]{cleveref}
+\usepackage{listings}
+\usepackage{xcolor}
+
+\lstset{
+     basicstyle=\ttfamily\small,
+     breaklines=true,
+     frame=single,
+     backgroundcolor=\color{gray!5}
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% THEOREMS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{assumption}[theorem]{Assumption}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+
+% Todonotes is useful during development; simply uncomment the next line
+%    and comment out the line below the next line to turn off comments
+\usepackage[disable,textsize=tiny]{todonotes}
+%\usepackage[textsize=tiny]{todonotes}
+% Preamble
+\usepackage{orcidlink}
+% --------导入自定义的包
+\input{usepackageDefinition}
+
+\title{WearerText: Benchmarking Wearer-Centered Scene Text Understanding in AI-Glasses Videos}
+
+% \author{
+% Yaping Zhang$^{1,2}$\thanks{\revion{Yaping Zhang, Mei Tu, and Jinting Wu contributed equally to this work.}}\,\orcidlink{0000-0001-6892-905X},
+% Mei Tu$^{3}$\footnotemark[1]\,\orcidlink{0009-0005-6458-6973},
+% Jinting Wu$^{3}$\footnotemark[1]\,\orcidlink{0000-0001-9642-4008},
+% Qixuan Zhang$^{1,2}$\,\orcidlink{0009-0002-7726-5085},
+% Xiaoyu Chen$^{1,2}$\,\orcidlink{0009-0005-6017-0700},\\
+% \bfseries
+% Mengchao Zhang$^{3}$\,\orcidlink{0009-0007-7167-5557},
+% Yuchen Huang$^{3}$\,\orcidlink{0009-0002-2764-7501},
+% Junshen Chen$^{3}$\,\orcidlink{0009-0008-1757-7531},
+% Fan Zhang$^{3}$\,\orcidlink{0009-0002-4157-6981},\\
+% \bfseries
+% Lu Xiang$^{1,2}$\thanks{\revion{Corresponding authors: Lu Xiang and Chengqing Zong.}}\,\orcidlink{0000-0002-7702-7274},
+% Junnan Zhu$^{1,2}$\,\orcidlink{0000-0002-9856-2946},
+% Yang Zhao$^{1,2}$\,\orcidlink{0000-0003-1028-3406},
+% Yu Zhou$^{1,2}$\,\orcidlink{0000-0002-4911-4717},
+% Chengqing Zong$^{1,2}\footnotemark[2]$\orcidlink{0000-0002-9864-3818}
+% \\[2mm]
+% \small $^{1}$ Institute of Automation, Chinese Academy of Sciences; $^{2}$School of Artificial Intelligence,
+% University of Chinese Academy of Sciences;
+% \\
+% \small  $^{3}$SRCB, Samsung.
+% \\
+% \small  \{yaping.zhang,lu.xiang, yang.zhao, yzhou,cqzong\}@nlpr.ia.ac.cn, \{mei.tu,jinting01.wu,zhang.fan,mc.zhang\}@samsung.com
+% }
+
+\author{
+Yaping Zhang$^{1,2}$\,\orcidlink{0000-0001-6892-905X},
+Mei Tu$^{3}$\,\orcidlink{0009-0005-6458-6973},
+Jinting Wu$^{3}$\,\orcidlink{0000-0001-9642-4008},
+Qixuan Zhang$^{1,2}$\,\orcidlink{0009-0002-7726-5085},
+Xiaoyu Chen$^{1,2}$\,\orcidlink{0009-0005-6017-0700},\\
+\bfseries
+Mengchao Zhang$^{3}$\,\orcidlink{0009-0007-7167-5557},
+Yuchen Huang$^{3}$\,\orcidlink{0009-0002-2764-7501},
+Junshen Chen$^{3}$\,\orcidlink{0009-0008-1757-7531},
+Fan Zhang$^{3}$\,\orcidlink{0009-0002-4157-6981},\\
+\bfseries
+Lu Xiang$^{1,2}$\,\orcidlink{0000-0002-7702-7274},
+Junnan Zhu$^{1,2}$\,\orcidlink{0000-0002-9856-2946},
+Yang Zhao$^{1,2}$\,\orcidlink{0000-0003-1028-3406},
+Yu Zhou$^{1,2}$\,\orcidlink{0000-0002-4911-4717},
+Chengqing Zong$^{1,2}$\thanks{\revion{Corresponding authors: Chengqing Zong.}}，\,\orcidlink{0000-0002-9864-3818}
+\\[2mm]
+\small $^{1}$ Institute of Automation, Chinese Academy of Sciences; $^{2}$School of Artificial Intelligence,
+University of Chinese Academy of Sciences;
+\\
+\small  $^{3}$SRCB, Samsung.
+\\
+\small  \{yaping.zhang, lu.xiang, junnan.zhu, yang.zhao, yzhou, cqzong\}@nlpr.ia.ac.cn, \{mei.tu, jinting01.wu, zhang.fan, mc.zhang\}@samsung.com
+}
+
+
+\begin{document}
+\maketitle
+
+% \begin{abstract}
+%      Recent MLLMs have shown potential in scene-text-aware video
+% understanding, but their ability in AI-glasses scenarios remains unclear.
+% AI-glasses videos are passively captured without a camera-frame preview, so the wearer cannot adjust framing as their head moves. Relevant text may therefore drift off-center or appear only briefly, while the recorded view may not reflect the wearer's attention. The challenge is therefore not merely to read text, but to identify and read the right text based on the wearer's position, viewpoint trajectory, and goal.
+% To systematically evaluate this capability, we introduce
+% \textbf{WearerText}, a benchmark for \textbf{Wearer}-Centered Scene
+% \textbf{Text} Understanding, comprising 1{,}101 real-world AI-glasses
+% videos and 15{,}336 QA pairs spanning 13 tasks. The tasks are organized
+% into a three-level diagnostic hierarchy: \textit{L1 Text Perception},
+% \textit{L2 Contextual Understanding}, and \textit{L3 Wearer-Grounded
+% Reasoning}, targeting unstable text reading, wearer-view alignment,
+% and goal-oriented text reasoning, respectively. To ensure reliable
+% construction and evaluation, we propose a
+% multi-agent--hybrid verification pipeline for data construction, and
+% a verified-evidence metric (VerEval) for open-ended answer
+% evaluation. Benchmarking 20 recent MLLMs shows that current models still
+% struggle with wearer-centered scene text understanding, especially on tasks
+% requiring wearer-view alignment and goal-oriented reasoning.\footnote{https://github.com/AprilYapingZhang/WearerText}   
+% \end{abstract}
+
+
+\begin{abstract}
+    Recent MLLMs have shown promise in scene-text-aware video understanding, yet their ability to understand scene text from the wearer's perspective in AI-glasses videos remains underexplored. AI-glasses videos are passively captured without a camera-frame preview, limiting the wearer's ability to adjust framing during recording. As a result, relevant text may be unstable, and the recorded view may not fully reflect the wearer's attention. The challenge is thus not merely to read visible text, but to identify and read the right text given the wearer's position, viewpoint trajectory, and goal.
+To systematically evaluate this capability, we introduce \textbf{WearerText}, a benchmark for \textbf{Wearer}-Centered Scene \textbf{Text} Understanding, comprising 1{,}101 real-world AI-glasses videos and 15{,}336 QA pairs spanning 13 tasks.
+These tasks are organized into a three-level diagnostic hierarchy: \textit{L1 Text Perception}, \textit{L2 Contextual Understanding}, and \textit{L3 Wearer-Grounded Reasoning}, targeting unstable text perception, wearer-view alignment, and goal-oriented text reasoning, respectively.
+To ensure reliable construction and evaluation, we develop \textsc{MAH-V}, a multi-agent hybrid verification pipeline for QA construction, and propose VerEval, a Verified-evidence metric for open-ended Evaluation.
+Benchmarking 20 recent MLLMs shows that current models still struggle with wearer-centered scene text understanding, particularly on tasks requiring wearer-view alignment and goal-oriented text reasoning.\footnote{https://github.com/AprilYapingZhang/WearerText}   
+\end{abstract}
+
+%AI-glasses videos are passively captured without a camera-frame preview, so natural head motion often makes text off-center. The challenge is therefore not just reading text, but identifying the right text for the wearer's position, viewpoint trajectory, and goal. 
+
+% \input{sec_intro_icml_v5}
+\input{sec_intro_acl_v4}
+
+%%%-----------------------分层任务定义表格------------%
+\input{tab-task-definitions}
+
+\section{Related Work}
+
+
+% ~~~\textbf{Egocentric Video Understanding.} Egocentric vision has received growing attention due to its promise for real-world AI assistance. Large-scale efforts such as HD-EPIC~\cite{perrett2025hdepic}, EmbodiedBench~\cite{yang2025embodiedbench}, Ego4D~\cite{9879279} and Project Aria~\cite{engel2023project} provide long-form first‑person videos with rich annotations for activity understanding and human–object interaction. 
+% These corpora are valuable for generic egocentric video understanding, but they do not specifically target scene-text understanding, wearer-view alignment, or goal-oriented text evidence reasoning, which are essential for 
+% wearer-centered guidance.
+
+
+% ~~~\noindent\textbf{\revion{Visual Text Understanding.}}
+% Visual text understanding has advanced from robust recognition and scene-text VQA~\cite{zhang2021robust,8953586,biten2019scene} to layout-aware document analysis, image translation, and multimodal benchmarks across multilingual, scientific, and wearable settings~\cite{zhang2026promptdla,zhang2025reading,liang2025ssr,zhang2025icdardimt,li2026mmtit,zhang2025hiscibench,chang2025wearvqa}. 
+% WearVQA~\cite{chang2025wearvqa}, the most related wearable benchmark, focuses on general VQA over single wearable images. 
+% WearerText instead evaluates dynamic text evidence in AI-glasses videos, including cross-frame grounding, wearer-view alignment, temporal dynamics, and goal-conditioned reasoning (Table~1).
+
+
+% \textbf{Text-Centric Video Understanding.}
+% Text in videos carries explicit and structured semantics, and several
+% benchmarks have been proposed to evaluate text-aware video
+% understanding~\cite{zhao2022towards,wu2021bilingual,reddy2020roadtext,zhou2025egotextvqa,wu2023icdar}.
+% RoadTextVQA~\cite{reddy2020roadtext} focuses on driving scenes with
+% vehicle-mounted viewpoints, while M4-ViTeVQA~\cite{zhao2022towards}
+% collects diverse YouTube videos to study general video text
+% understanding. More recent benchmarks such as
+% MME-VideoOCR~\cite{shi2025mmevideoocr} and
+% VidText~\cite{yang2025vidtext} further evaluate OCR-related abilities
+% in videos. EgoTextVQA~\cite{zhou2025egotextvqa} moves closer to
+% egocentric assistance by using head-mounted videos from driving and
+% indoor activities. However, these benchmarks do not systematically
+% isolate the key challenges of AI-glasses text understanding caused by natural head motion, wearer-view alignment, and goal-oriented text evidence reasoning. In addition, most existing datasets rely on manual construction and standard string matching or LLM-judge evaluation, which may limit scalability and fine-grained diagnosis.
+
+% Table~\ref{tab:comparison} compares \dataset~with existing text-aware
+% and egocentric video benchmarks. Unlike prior datasets, \dataset~is
+% built from real-world AI-glasses videos and is designed around a
+% three-level diagnostic hierarchy that directly targets unstable text
+% reading, wearer-view alignment, and goal-oriented text evidence reasoning.
+
+
+
+\noindent\textbf{Visual Text Understanding.}
+Visual text understanding has evolved from robust scene text recognition and VQA~\cite{zhang2021robust,8953586,biten2019scene} to layout-aware document analysis, image translation, and multimodal benchmarks across multilingual, scientific, and wearable settings~\cite{zhang2026promptdla,zhang2025reading,liang2025ssr,zhang2025icdardimt,li2026mmtit,zhang2025hiscibench,chang2025wearvqa}.
+Among wearable benchmarks, WearVQA~\cite{chang2025wearvqa} is the most closely related, but focuses on general VQA over single wearable images.
+In contrast, \dataset~targets scene text understanding in dynamic AI-glasses videos, where models must handle unstable text, align textual evidence with the wearer's view, and reason according to the wearer's goal.
+
+\noindent\textbf{Egocentric Video Understanding.}
+Egocentric benchmarks study visual understanding from a first-person perspective and are closely related to wearable assistance.
+WearVQA~\cite{chang2025wearvqa} evaluates wearable-image understanding, while EgoTextVQA~\cite{zhou2025egotextvqa} extends text-aware VQA to head-mounted videos from driving and indoor activities.
+However, existing egocentric benchmarks do not explicitly decompose scene text understanding into unstable text perception, wearer-view alignment, and goal-oriented reasoning over changing viewpoints.
+\dataset~focuses on this wearer-centered setting, where the relevance of textual evidence depends on the wearer's position, viewpoint trajectory, and goal.
+
+\noindent\textbf{Text-Centric Video Understanding.}
+Several benchmarks evaluate text-aware video understanding~\cite{zhao2022towards,wu2021bilingual,reddy2020roadtext,zhou2025egotextvqa,wu2023icdar}.
+RoadTextVQA~\cite{reddy2020roadtext} focuses on driving scenes from vehicle-mounted cameras, while M4-ViTeVQA~\cite{zhao2022towards} covers diverse YouTube videos.
+More recent benchmarks, including MME-VideoOCR~\cite{shi2025mmevideoocr} and VidText~\cite{yang2025vidtext}, further evaluate OCR-related capabilities in videos.
+These benchmarks primarily assess text recognition and understanding from the recorded video itself, but do not systematically evaluate whether models can identify text relevant to the wearer as the viewpoint changes.
+
+Table~\ref{tab:comparison} summarizes these differences.
+Unlike prior text-aware and egocentric benchmarks, \dataset~is built from real-world AI-glasses videos and organizes evaluation into a three-level diagnostic hierarchy.
+
+%---------------主实验表格：数据方法介绍部分----------------------%
+\input{sec_dataset_construc}
+
+%---------------主实验表格：Main experimental results----------------------%
+\input{exp-main-results-tab}
+
+
+\section{Experiments}
+% This section details the experimental evaluation of state-of-the-art models on \dataset. We define the evaluation metrics, describe the baseline models selected, and detail the experimental setup.
+
+\noindent\textbf{Data Statistics.}
+We summarize dataset characteristics---scenario coverage, QA and video language distribution, and the test/train split---in Appendix Table~\ref{tab:detailed_data_stats}, which illustrates the dataset's diversity across scenes and text settings.
+
+\noindent\textbf{Model Evaluation.}
+%-----ToDO proof valley 和GLM 引用
+We evaluate 5 closed-source API-based models (GPT-5.2~\cite{gpt-5.2}, Gemini-3-Pro~\cite{gemini-3-pro}, Claude-Opus-4.5~\cite{claude-opus-4.5}, Qwen3-VL-PLUS~\cite{Qwen3-VL}, Seed-1.6~\cite{doubao1.6}) and 15 advanced open-source MLLMs (Intern-VL3.5-8B/38B~\cite{wang2025internvl3_5}, Qwen2.5-VL-3B/7B/32B~\cite{bai2025qwen2}, {Qwen3-VL-4B/8B/32B}~\cite{Qwen3-VL}, {GLM-4.6V-Flash-9B, GLM-4.6V-106B-A12B}\cite{vteam2025glm45vglm41vthinkingversatilemultimodal}, {VideoLLaMA3-7B} \cite{zhang2025videollama}, MINICPM-V-4.5~\cite{yu2025minicpmv45cookingefficient}, LLaVA-NeXT-Video-7B~\cite{zhang2024llavanextvideo}, VideoR1-7B~\cite{feng2025video}, MOLMO-2-8B~\cite{clark2026molmo2}).
+% -----TODO 确认这几个模型在最新benchmark里面的效果----%。
+%The models have reported the \todo{state-of-the-art (SOTA)} on existing scene-text VQA benchmarks \cite{biten2019scene,8953586,8578478}, \eg, Qwen2-VL achieves QA accuracy $\sim$85\% on ST-VQA \cite{biten2019scene}. 
+%~\ref{sup:models} and~\ref{sup:prompt}.
+
+\subsection{Main Results}
+
+
+
+
+\noindent\textbf{Alignment Between VerEval and Human Judgment.}
+We evaluate VerEval on 390 QA pairs annotated by three experts and finalized by majority vote as \textit{Correct} or \textit{Wrong}. We compare against SAS, a transformer-based semantic answer similarity metric~\citep{risch2021semantic}, and ANLS, a normalized edit-similarity metric widely used in scene-text VQA~\citep{biten2019scene}. As shown in Figure~\ref{fig:score_distribution}, our VerEval Score aligns more closely with human judgments. It yields a larger Correct--Wrong mean gap (0.402 vs. 0.112/0.094). These results indicate that VerEval provides a more reliable evaluation signal than ANLS and SAS for open-ended wearer-centered scene text understanding. We therefore report the main leaderboard with VerEval scores in Table~\ref{tab:final_overall_results}, while detailed ANLS and SAS results are provided in Appendix Tables~\ref{tab:anls_results} and~\ref{tab:sas_results}. VerEval produces scores on the raw [0,1] scale; we multiply them by 100 when reporting results for readability in Tables.
+
+
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\columnwidth]{figures/Fig4_humanAgentAlignmentboxplots.pdf}
+\caption{Distribution of automated metric scores grouped by human judgment (Wrong vs. Correct). (a) VerEval. (b) SAS. (c) ANLS. Red diamonds indicate mean values. The larger separation for VerEval indicates stronger alignment with human.}
+\label{fig:score_distribution}
+\end{figure}
+
+\textls[-30]{\noindent\textbf{Capability Boundaries of Mainstream MLLMs.} As detailed in Table~\ref{tab:final_overall_results}, strong closed-source models such as GPT-5.2 and Gemini-3-Pro obtain the highest overall scores in our evaluation (73.1 and 72.9 respectively), but clear limitations remain in \textit{Structured Text Synthesis (L3.3 STS)} and \textit{Viewpoint Trajectory Description (L3.6 VTD)}. Specifically, the best scores in these two categories are 46.2 (Gemini-3-Pro) and 38.9 (Qwen3-VL-PLUS), indicating a substantial drop relative to \textit{Dynamic Text Recognition (L1.1 DTR)}. The results suggest that moving from unstable text perception to goal-oriented text evidence selection remains challenging for current MLLMs.}
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=0.78\linewidth]{figures/Fig-radar_compact.pdf}
+  \caption{Capability Boundaries of Mainstream MLLMs.}
+  \label{fig:radar}
+  \vspace{-.2cm}
+\end{figure}
+
+
+
+\textbf{Effectiveness of Training with Scalable Verified Data.} To test whether MAH-V data is useful beyond benchmark construction, we fine-tune Qwen2.5-VL-7B on (v1) unverified LLM-generated data and (v2) MAH-V-verified data---both drawn from videos disjoint from the test split---and compare against the zero-shot baseline (v0). Table~\ref{tab:qwen_ablation} shows that v1 gains on L1/L3 but loses $1.2\%$ on L2 \textit{Contextual Understanding}, whereas v2 improves every level ($+3.7\%$ L1, $+1.8\%$ L2, $+0.5\%$ L3). Multi-agent verification therefore both raises overall data quality and removes the L2 degradation introduced by direct LLM synthesis.
+
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=0.95\linewidth]{figures/Fig6_ModelScaling.pdf}
+\caption{Performance across model sizes and task levels. Across both Qwen2.5-VL and Qwen3-VL families, L1 remains easier than L2, and L3 is consistently the most challenging, indicating that the three-level hierarchy preserves a clear difficulty separation across scales.}
+  \label{fig:model_size_scaling}
+  \vspace{-.2cm}
+\end{figure}
+
+
+\begin{figure*}[t]
+    \centering
+    \includegraphics[width=0.95\linewidth]{figures/Fig7_failure_case_0526.pdf}
+    \caption{
+Representative failure cases and Error distribution on WearerText. Red text denotes model predictions, while green text denotes reference answers.
+}
+\label{fig:faifurecases}
+\end{figure*}
+
+
+\begin{figure}[htb]
+  \centering
+  \setlength{\abovecaptionskip}{0.6cm}    
+\setlength{\belowcaptionskip}{-0.3cm}
+  % \includegraphics[width=\linewidth]{figures/diagnostic_bars_combined.pdf}
+  \includegraphics[width=\linewidth]{figures/diagnostic_bars_combined.pdf}
+  \caption{Diagnostic bar comparisons for GPT-5.2. (a) Modality ablation: full video, sampled keyframes, layout-aware OCR text. (b) Memory strategies: no memory, OCR text memory, structured text memory with reasoning, and raw multimodal memory. Arrows indicate changes relative to the full-video baseline.}
+  \label{fig:diagnostic_bars}
+  \vspace{-.2cm}
+\end{figure}
+
+
+
+
+
+\begin{table}[t]
+\caption{Effectiveness of Scalable Verified Data Generation. \textbf{Bold} indicates the best performance; \underline{underline} indicates the second best. \textcolor{blue}{$\uparrow$} and \textcolor{red}{$\downarrow$} denote improvement or decline relative to the v0 baseline.}
+\label{tab:qwen_ablation}
+\centering
+\resizebox{.95\linewidth}{!}{
+\begin{tabular}{l | c | c c c}
+\Xhline{1pt}
+\textbf{Metric} & \makecell{\textbf{v0}\\\textbf{Zero-shot}} & \makecell{\textbf{v1}\\\textbf{Unverified LLM}} & \makecell{\textbf{v2}\\\textbf{MAH-V}} \\
+\Xhline{1pt}
+\textbf{L1} & 62.4 & \underline{65.0} \textcolor{blue}{$\uparrow$2.6} & \textbf{66.1} \textcolor{blue}{$\uparrow$3.7} \\
+\textbf{L2} & 60.7 & 59.5 \textcolor{red}{$\downarrow$1.2} & \textbf{62.5} \textcolor{blue}{$\uparrow$1.8} \\
+\textbf{L3} & 56.5 & \textbf{59.0} \textcolor{blue}{$\uparrow$2.5} & \underline{57.0} \textcolor{blue}{$\uparrow$0.5} \\
+\hline
+\textbf{Overall} & 59.5 & \underline{60.3} \textcolor{blue}{$\uparrow$0.9} & \textbf{61.4} \textcolor{blue}{$\uparrow$1.9} \\
+\Xhline{1pt}
+\end{tabular}
+}
+\end{table}
+\vspace{-3mm}
+
+
+
+
+
+\subsection{Key Findings}
+We conduct extensive experiments to thoroughly analyze the challenges presented by \dataset.  Our analysis centers on the following questions: 
+\noindent\textbf{Q1: How do tasks differ in difficulty?}
+As shown in Figure \ref{fig:model_size_scaling}, across both Qwen2.5-VL and Qwen3-VL families, task difficulty increases from L1 to L3. L1 perception scores highest, L2 understanding trails behind, and L3 reasoning remains most challenging. This clear separation ($L1 > L2 > L3$) confirms that task complexity grows with each level. Notably, the substantial performance gap between L1 and L3 (up to 20 points) suggests that current MLLMs struggle to move from reading unstable text to wearer-view alignment and goal-oriented text evidence selection.
+
+
+
+
+\noindent\textbf{Q2: Why do current models fail?}
+To move beyond aggregate scores, we manually categorize GPT-5.2's incorrect predictions on the held-out test set. As shown in Figure~\ref{fig:faifurecases}(d), the dominant failure type is {goal-oriented text evidence reasoning} (57.4\%), followed by {unstable text recognition} (26.6\%) and {wearer-view alignment} (16.0\%). These results suggest that the key bottleneck is not only OCR, but the ability to select and reason over the right textual evidence under the wearer's view. Figure~\ref{fig:faifurecases} illustrates these failure modes. In (a), the model fails to recognize briefly visible scrolling text on a digital screen, showing the difficulty of unstable text reading under blur and short exposure. In (b), the model incorrectly includes years from visually similar awards, indicating weak temporal evidence accumulation and fine-grained text selection. In (c), the model gives an incorrect navigation suggestion because it fails to align visible shop signs with the wearer's spatial context. Overall, these cases show that AI-glasses text understanding requires the joint ability to read unstable text, ground it from the wearer's viewpoint, and accumulate goal-relevant evidence over time. 
+
+\noindent\textbf{Q3: Does the benchmark require full AI-glasses video?}
+We compare GPT-5.2 with full video, sampled keyframes, and layout-aware OCR text. As shown in Figure~\ref{fig:diagnostic_bars}(a), full video consistently outperforms reduced inputs across L1--L3 and overall. The gap is modest for image-only input but much larger for OCR-only input, especially at L3, indicating that higher-level tasks require visual context and temporally ordered wearer-view signals beyond extracted text.
+
+
+
+\noindent\textbf{Q4: Does memory help AI-glasses text understanding?}
+We compare four memory strategies on GPT-5.2 in Figure~\ref{fig:diagnostic_bars}(b): no memory, unstructured multimodal memory with raw past frames, OCR-derived text memory with concatenated OCR tokens, and structured text memory with distilled per-frame text indexed by the wearer's viewpoint trajectory and paired with a reasoning prompt. Three task-specific patterns emerge.
+(i)~\textbf{Memory helps when evidence is temporal.} Gains concentrate on L3 \textit{Wearer-Grounded Reasoning} (e.g., L3.1 HII and L3.5 GOC), while frame-local L1 perception is largely unaffected. This suggests that the L3 deficit in Q1 partly reflects a memory-architecture limitation rather than model capacity alone.
+(ii)~\textbf{Structure beats raw recall.} OCR-only memory brings little gain, whereas trajectory-indexed distilled text with a reasoning prompt improves overall performance by $+2.0$. It is also the only configuration that helps L3.4 STN and L3.6 VTD, both of which explicitly query the wearer's movement.
+(iii)~\textbf{Raw multimodal memory hurts.} Stale frames degrade accuracy below the no-memory baseline, suggesting that re-perception competes with current-frame perception and amplifies the unstable-text errors.
+\emph{Design implication:} future systems should maintain a low-bandwidth episodic record of distilled text indexed by the viewpoint trajectory rather than a verbatim multimodal buffer.
+
+
+
+
+
+
+
+
+
+
+
+%
+\section{Conclusion}
+
+% We introduced \dataset, a benchmark for evaluating AI-glasses text understanding in real-world wearable scenarios. Through our three-level task hierarchy, we assessed {20} recent MLLMs on real-world public text-use challenges. Our findings show that current models remain limited on wearer-centered scene text understanding and reasoning, especially when answers require selecting relevant text evidence from partial observations according to the wearer's goal. These results suggest that progress in this setting will require stronger wearer-view alignment, structured memory over observed text, and intent-aware reasoning.
+We introduce \dataset, a benchmark for evaluating AI-glasses text understanding in real-world wearable scenarios. Through our three-level task hierarchy, we assess {20} recent MLLMs on real-world public text-use challenges. Our findings have shown that current models remain limited on wearer-centered scene text understanding and reasoning, especially when answers require selecting relevant text evidence from partial observations according to the wearer's goal. These results suggest that progress in this setting requires stronger wearer-view alignment, structured memory over observed text, and intent-aware reasoning.
+
+\section*{Acknowledgments}
+\revion{This work was supported by the National Natural Science Foundation of China (NSFC) under Grant No.~62476275.}
+
+\section*{Limitations}
+
+\dataset~ is collected from real wearable-glasses videos, but its coverage is still bounded by the recording locations, participant behaviors, device characteristics, and public-space scenarios included in our study. Although the benchmark contains multilingual and mixed-language text, its distribution is not intended to represent all languages, regions, signage conventions, or accessibility needs. Future extensions should include broader geographic coverage, more diverse users, and additional low-resource languages.
+
+Our task design focuses on offline question answering over short egocentric clips. Thus, ``goal-oriented text evidence selection'' refers to selecting relevant textual evidence within 5--10 second interaction primitives according to the wearer's current goal, rather than long-horizon memory over minutes or hours. This setting enables controlled comparison across models, but it does not fully capture interactive use cases in which a wearable assistant can ask clarification questions, adapt its guidance, or operate under real-time latency and energy constraints.
+
+\dataset~ is wearer-centered in the sense that questions are grounded in the camera-view trajectory of the person wearing the device. However, our RayNeo recordings do not include eye-tracking signals, so camera view should not be interpreted as true gaze. Future versions with synchronized gaze sensing could separate head direction, eye fixation, and user intention more precisely.
+
+
+
+\section*{Ethical Considerations}
+
+This work advances AI-glasses text understanding by providing a comprehensive and rigorous benchmark. 
+ All data contributors provided informed consent. To ensure privacy, we implemented rigorous anonymization (facial blurring) for all third-party individuals. Our pipeline prioritizes transparency and bias mitigation throughout the collection and annotation process.
+
+%\textbf{Societal Impact}. This work provides a rigorous testbed for advancing text-literate egocentric multimodal systems. It contributes to key application scenarios such as assistive navigation and embodied agents. Potential domain and language biases require attention when transferring to other application domains.
+
+
+\bibliography{example_paper}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% APPENDIX
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\include{acl_appendix}
+\end{document}

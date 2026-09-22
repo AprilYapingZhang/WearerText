@@ -1,0 +1,229 @@
+% \begin{table*}[t]
+% \caption{Overall Performance Results on \dataset Three-Level Task Hierarchy. The best and second-best ANLS /SAS results are \textbf{bolded} and \underline{underlined} respectively}
+% \label{tab:overall_results}
+% \setlength{\tabcolsep}{.2em}
+% \fontsize{9}{11}\selectfont
+% \resizebox{\textwidth}{!}{
+% \begin{threeparttable}
+% \begin{tabular}{l|cc|cccc|ccccc}
+% \Xhline{1pt}
+% \textbf{Model} 
+%   & \multicolumn{2}{c|}{\textbf{L1: Core Cognition}} 
+%   & \multicolumn{4}{c|}{\textbf{L2: Contextual Understanding}} 
+%   & \multicolumn{5}{c}{\textbf{L3: Wearer-Grounded Reasoning}} \\
+% \Xhline{1pt}
+% \rowcolor{ModelGreen}
+%  & \textbf{DTR} & \textbf{TG} 
+%    & \textbf{DQ} & \textbf{CF} & \textbf{CLU} & \textbf{GTT} 
+%    & \textbf{MID} & \textbf{GT}  & \textbf{SI}  & \textbf{STR} & \textbf{CS} \\
+% \Xhline{1pt}
+% \multicolumn{10}{l}{\emph{\textcolor{lightgray}{Closed-source Models}}} \\
+% GPT-4o & 26.9/33 & 8.3/14 & 19/25.5 & 8.5/14.7 & 19.6/27.6 & 33.6/37.3 & \underline{28.1}/35.9 & 2.4/4.8 & 12.6/19.6 & 58.5/63.6 & 16.2/23.6 \\
+% o4-mini-high & 33.6/39.6 & 9.4/16.7 & \textbf{33.4}/40.9 & 17.5/27.5 & 23.1/31.6 & \textbf{42}/\textbf{43.1} & 27.1/34.0 & 2.7/4.4 & \textbf{18.6}/\textbf{29.1} & \underline{59}/\underline{63.9} & \textbf{41.3}/\textbf{49.9} \\
+% Gemini-2.5-Flash & 28.1/34.5 & 9.4/14.1 & 25.7/33.4 & 9.9/17.2 & 17.2/23.8 & 32.9/37 & 22.1/29.9 & 1/2 & 12.1/18 & 51.5/55.9 & \underline{35.7}/\underline{43.4} \\
+% Gemini-2.5-Pro & \underline{35.8}/\underline{41.9} & 9.8/15.5 & 25.6/33.5 & 15.5/23.3 & 19.9/26.5 & \underline{39.7}/\underline{40.5} & 18.1/25.1 & 4.9/9.1 & 11.3/18.8 & 54.4/59.1 & 20.8/32.6 \\
+% Qwen-VL-Max & \textbf{38.4}/\textbf{44.7} & 1.9/7.9 & 28.3/37.1 & 15.6/23.6 & 11.7/15.9 & 35.9/38.4 & 11.8/16.2 & 1.6/2.5 & \underline{17.9}/\underline{25.5} & \textbf{60.7}/\textbf{65.1} & 17.4/24.3 \\
+% Qwen-VL-OCR & 6.2/10.4 & 1.8/2.7 & 1.6/2.9 & 1.1/1.9 & 6.3/6.9 & 9.9/10.4 & - & 0.1/0.1 & 1.4/2 & 1.3/2.2 & 3.1/5.1 \\
+% \hline
+% \multicolumn{10}{l}{\emph{\textcolor{lightgray}{Open-source Models}}} \\
+% InternVL3-8B & 13.9/21.5 & 6.1/12.2 & 27.6/37.2 & 16.8/24.3 & 24.6/34.4 & 20.4/21.8 & 25.6/35.8 & 15.3/23.5 & 10.3/20.1 & 21.4/29.7 & 20.7/33.7 \\
+% InternVL3-38B & 18.1/23.1 & 48.6/55.3 & \underline{32.2}/\textbf{43.5} & \textbf{28}/\textbf{39.3} & 18.2/26.7 & 27.1/30 & 20.4/29.1 & \underline{39.9}/\underline{46} & 11.6/19 & 44/49.5 & 23.8/34.6 \\
+% InternVL3-78B & 19.8/24.9 & \textbf{49.2}/\textbf{55.8} & 21.2/30.3 & 14.1/22.4 & 26.8/36.8 & 28.1/29.6 & 28.0/\textbf{37.5} & 39.6/45.4 & 9.5/18.4 & 45.2/50.6 & 22.2/36.7 \\
+% Qwen2.5-VL-3B & 17.8/22.8 & 37/43.7 & 17.9/25.7 & 18.1/26.7 & \underline{28}/\underline{37.3} & 24.5/27.6 & 15.2/20.6 & 26.4/37.6 & 8.8/13.9 & 37.6/41.8 & 13.4/20.1 \\
+% Qwen2.5-VL-7B & 13.8/18.5 & 36.4/43.5 & 29.7/40.8 & 15.1/22.4 & 20.9/29.6 & 25/29.3 & \textbf{28.4}/\underline{37.1} & 35.6/44.3 & 13.2/21.2 & 37/41.8 & 23.5/31.9 \\
+% Qwen2.5-VL-32B & 21/26.5 & 45.7/52.2 & 11.5/16.6 & 6/9.5 & 23/32.6 & 29.8/31.5 & 22.1/29.0 & 34.5/41.3 & 3.9/6.1 & 42.1/47.2 & 5.5/8.4 \\
+% Qwen2.5-VL-72B & 22.2/27.5 & \underline{48.9}/\underline{55.5} & 13.5/19.5 & 8.2/13.3 & \textbf{29.9}/\textbf{40.3} & 29.4/31 & 19.7/26.0 & \textbf{43}/\textbf{50.7} & 5.7/9 & 46.4/51.4 & 8.5/14 \\
+% \hline
+% \multicolumn{10}{l}{\emph{\textcolor{lightgray}{Open-source Video Models}}} \\
+% VideoLLaMA3-7B & 1.5/9.3 & 0.0/0.0 & 2.6/21.8 & 9.6/\underline{28.8} & 3.2/22.6 & 1.0/15.3 & 4.6/30.4 & 0.0/8.2 & 1.4/17.8 & 4.1/14.0 & 0.2/21.6 \\
+% LLaVA-NeXT-Video-7B & 12.1/23.8 & 0.0/0.0 & 9.9/25.7 & 5.9/24.6 & 5.5/27.2 & 9.0/30.8 & 1.3/13.9 & 0.0/12.2 & 5.2/21.8 & 45.7/56.6 & 2.5/18.9 \\
+% Valley & 18.2/24.1 & 10.6/14.9 & 28.8/\underline{41.0} & \underline{19.6}/28.5 & 26.7/35.2 & 5.2/6.6 & 20.0/27.4 & 7.3/11.1 & 14.9/25.1 & 41.0/47.1 & 30.0/39.4 \\
+% \Xhline{1pt}
+% \end{tabular}
+% \end{threeparttable}
+%  }
+% \vspace{-0.4cm}
+% \end{table*}
+
+
+
+
+% \begin{table*}[t]
+% \caption{Overall Performance Results on \dataset  Three-Level Task Hierarchy. The best and second-best logical\_avg /consistency\_avg results are \textbf{bolded} and \underline{underlined} respectively}
+% \label{tab:overall_results}
+% \setlength{\tabcolsep}{.2em}
+% \fontsize{9}{11}\selectfont
+% \resizebox{\textwidth}{!}{
+% \begin{threeparttable}
+% \begin{tabular}{l|cc|ccccc|cccccc}
+% \Xhline{1pt}
+% \textbf{Model} & \multicolumn{2}{c|}{\textbf{L1: Core Cognition}} & \multicolumn{5}{c|}{\textbf{L2: Contextual Understanding}} & \multicolumn{6}{c}{\textbf{L3: Wearer-Grounded Reasoning}} \\
+% \Xhline{1pt}
+% \rowcolor{ModelGreen}
+%  & \textbf{DTR} & \textbf{TG} & \textbf{DQ} & \textbf{CF} & \textbf{CLU} & \textbf{GTT} & \textbf{NEW} & \textbf{MID} & \textbf{GT} & \textbf{SI} & \textbf{STR} & \textbf{CS} & \textbf{NEW} \\
+% \Xhline{1pt}
+% \multicolumn{14}{l}{\emph{\textcolor{lightgray}{Closed-source Models}}} \\
+% GPT-5.2 & -- & -- & -- & -- & -- & -- & -- & -- & -- & -- & -- & -- & -- \\
+% Gemini-3-Pro & -- & -- & -- & -- & -- & -- & -- & -- & -- & -- & -- & -- & -- \\
+% Claude-Opus-4.5 & -- & -- & -- & -- & -- & -- & -- & -- & -- & -- & -- & -- & -- \\
+% Qwen-VL-Max & -- & -- & -- & -- & -- & -- & -- & -- & -- & -- & -- & -- & -- \\
+% \hline
+% \multicolumn{14}{l}{\emph{\textcolor{lightgray}{Open-source Models}}} \\
+% InternVL3-8B & -- & -- & -- & -- & -- & -- & -- & -- & -- & -- & -- & -- & -- \\
+% InternVL3-38B & -- & -- & -- & -- & -- & -- & -- & -- & -- & -- & -- & -- & -- \\
+% InternVL3-78B & -- & -- & -- & -- & -- & -- & -- & -- & -- & -- & -- & -- & -- \\
+% Qwen2.5-VL-3B & 60.7/61.5 & 46.9/48.6 & 47.9/48.8 & 51.6/54.4 & 64.1/66.2 & 32.1/32.3 & 16.9/15.0 & 53.1/55.3 & 54.3/58.8 & 62.1/62.8 & 46.3/48.5 & 48.5/48.6 & 9.0/13.4 \\
+% Qwen2.5-VL-7B & 71.7/73.6 & 57.0/62.8 & 56.5/56.0 & 62.9/64.8 & 71.6/71.7 & 39.2/39.5 & 14.9/14.8 & 53.6/56.7 & 56.9/63.8 & 60.1/64.2 & 46.5/51.2 & 46.5/49.8 & \textbf{34.7}/\textbf{41.8} \\
+% Qwen2.5-VL-32B & 71.2/73.5 & 61.9/64.9 & 56.6/54.0 & \underline{68.4}/\underline{67.0} & 73.6/73.9 & 40.6/42.2 & \underline{33.2}/\textbf{29.6} & \underline{62.5}/\underline{63.2} & \underline{71.6}/\underline{70.7} & \underline{70.9}/\underline{72.0} & \underline{60.7}/\underline{58.6} & \underline{61.9}/\underline{63.0} & 15.5/22.0 \\
+% Qwen3-VL-4B & 71.3/72.8 & 55.2/57.9 & 54.4/53.1 & 62.8/60.0 & 73.0/71.8 & 37.7/38.8 & 22.0/20.5 & 59.1/58.1 & 56.0/58.7 & 62.4/64.4 & 49.5/50.6 & 54.6/48.2 & 15.9/20.2 \\
+% Qwen3-VL-8B & \underline{75.1}/\underline{74.6} & \underline{64.3}/\underline{66.8} & 57.7/54.9 & 57.5/61.2 & \underline{74.7}/\underline{75.3} & 44.7/43.5 & 29.0/25.8 & 47.9/50.3 & 53.2/57.2 & 51.8/57.9 & 40.6/42.4 & 39.1/42.3 & 23.1/18.9 \\
+% Qwen3-VL-32B & \textbf{75.9}/\textbf{76.5} & \textbf{69.5}/\textbf{70.2} & \textbf{67.5}/\textbf{61.6} & \textbf{72.4}/\textbf{67.8} & \textbf{82.7}/\textbf{77.5} & \textbf{60.2}/\textbf{55.6} & \textbf{33.6}/\underline{27.7} & \textbf{78.4}/\textbf{74.0} & \textbf{75.5}/\textbf{71.9} & \textbf{80.6}/\textbf{77.0} & \textbf{65.4}/\textbf{61.8} & \textbf{70.8}/\textbf{68.1} & \underline{24.0}/\underline{28.2} \\
+% GLM-4.6V-Flash & 55.6/58.6 & 50.3/57.7 & 56.5/58.2 & 44.0/52.8 & 50.9/51.3 & 32.9/36.5 & 20.1/19.1 & 30.8/36.5 & 27.8/35.9 & 34.9/42.0 & 30.4/37.1 & 29.2/35.6 & 8.4/11.4 \\
+% GLM-4.6V & 71.1/73.9 & 60.5/65.1 & \underline{61.1}/\underline{61.3} & 56.0/58.8 & 65.8/67.9 & \underline{47.0}/\underline{47.6} & 29.4/27.0 & 43.1/48.9 & 41.8/53.1 & 46.8/56.1 & 39.0/47.7 & 35.6/40.1 & 20.6/25.8 \\
+% \hline
+% \multicolumn{14}{l}{\emph{\textcolor{lightgray}{Open-source Video Models}}} \\
+% VideoLLaMA3-7B & -- & -- & -- & -- & -- & -- & -- & -- & -- & -- & -- & -- & -- \\
+% LLaVA-NeXT-Video-7B & -- & -- & -- & -- & -- & -- & -- & -- & -- & -- & -- & -- & -- \\
+% VideoR1-7B & -- & -- & -- & -- & -- & -- & -- & -- & -- & -- & -- & -- & -- \\
+% Molmo-7B & -- & -- & -- & -- & -- & -- & -- & -- & -- & -- & -- & -- & -- \\
+% \Xhline{1pt}
+% \end{tabular}
+% \end{threeparttable}
+%  }
+% \vspace{-0.4cm}
+% \end{table*}
+
+
+% \begin{table*}[t]
+% \caption{Overall Performance. Scores are calculated as $0.1 \times \text{Logic} + 0.9 \times \text{Consistency}$. \textbf{Bold} indicates the best, \underline{Underline} indicates the second best.}
+% \label{tab:final_overall_results}
+% \centering
+% \resizebox{\textwidth}{!}{
+% \begin{tabular}{l | cc | ccccc | cccccc | c}\Xhline{1pt}
+% \textbf{Model} & \multicolumn{2}{c|}{\textbf{L1: Core}} & \multicolumn{5}{c|}{\textbf{L2: Contextual}} & \multicolumn{6}{c|}{\textbf{L3: Wearer-Grounded Reasoning}} & \textbf{Overall} \\
+%  & \textbf{DTR} & \textbf{TG} & \textbf{DQ} & \textbf{CF} & \textbf{CLU} & \textbf{GTT} & \textbf{NEW} & \textbf{MID} & \textbf{GT} & \textbf{SI} & \textbf{STR} & \textbf{CS} & \textbf{NEW} & \textbf{AVG} \\
+% \Xhline{1pt}
+% \multicolumn{15}{l}{\emph{Closed-source Models}} \\
+% GPT-5.2 & 84.5 & \textbf{77.7} & 72.4 & 74.2 & \textbf{85.8} & \textbf{73.0} & 45.1 & \textbf{81.2} & \textbf{82.6} & \textbf{82.4} & \textbf{73.6} & \textbf{83.2} & 34.4 & \cellcolor{gray!15}{\textbf{73.1}} \\
+% Gemini-3-Pro & \textbf{91.4} & 75.8 & \textbf{82.7} & \textbf{82.8} & \underline{83.2} & \underline{70.2} & \textbf{46.2} & \underline{77.1} & \underline{79.5} & 81.6 & \underline{73.1} & \underline{80.6} & 23.0 & \cellcolor{gray!15}{\underline{72.9}} \\
+% Claude-Opus-4.5 & 86.9 & 71.6 & \underline{76.2} & \underline{77.4} & 72.3 & 60.5 & 44.8 & 75.2 & 79.2 & 80.1 & 71.3 & 75.7 & 35.9 & \cellcolor{gray!15}{69.8} \\
+% Qwen3-VL-PLUS & \underline{89.1} & \underline{76.7} & 73.3 & 74.0 & 79.6 & 66.4 & 43.8 & 73.9 & 78.1 & \underline{82.4} & 70.4 & 78.6 & \underline{38.9} & \cellcolor{gray!15}{71.2} \\
+% Seed-1.6 & 84.0 & 70.4 & 71.8 & 75.0 & 61.1 & 63.3 & \underline{46.0} & 58.6 & 54.3 & 60.2 & 55.4 & 57.6 & 35.1 & \cellcolor{gray!15}{61.0} \\
+% \hline
+% \multicolumn{15}{l}{\emph{Open-source Models}} \\
+% InternVL3-8B & 54.4 & 49.6 & 43.9 & 50.4 & 57.0 & 28.1 & 7.9 & 40.4 & 25.5 & 49.6 & 43.3 & 35.3 & 21.4 & \cellcolor{gray!15}{39.0} \\
+% InternVL3-38B & 68.5 & 54.8 & 38.3 & 53.6 & 54.2 & 32.8 & 16.2 & 42.3 & 36.3 & 50.5 & 42.6 & 44.3 & 11.2 & \cellcolor{gray!15}{42.0} \\
+% Qwen2.5-VL-3B & 65.9 & 52.1 & 48.2 & 59.5 & 61.8 & 29.3 & 15.2 & 49.0 & 47.9 & 51.6 & 41.0 & 44.1 & 7.5 & \cellcolor{gray!15}{44.1} \\
+% Qwen2.5-VL-7B & 73.4 & 62.2 & 56.0 & 64.6 & 71.7 & 39.4 & 14.8 & 56.4 & 63.1 & 63.8 & 50.8 & 49.5 & \textbf{41.1} & \cellcolor{gray!15}{54.4} \\
+% Qwen2.5-VL-32B & 73.2 & 64.6 & 54.3 & 67.2 & 73.9 & 42.1 & 30.0 & 63.1 & 70.8 & 71.9 & 58.8 & 62.9 & 21.4 & \cellcolor{gray!15}{58.0} \\
+% Qwen3-VL-4B & 72.6 & 57.7 & 53.3 & 60.2 & 72.0 & 38.7 & 20.6 & 58.2 & 58.4 & 64.2 & 50.5 & 48.8 & 19.8 & \cellcolor{gray!15}{51.9} \\
+% Qwen3-VL-8B & 74.6 & 66.6 & 55.2 & 60.8 & 75.2 & 43.6 & 26.2 & 50.1 & 56.8 & 57.3 & 42.3 & 42.0 & 19.3 & \cellcolor{gray!15}{51.5} \\
+% Qwen3-VL-32B & 76.5 & 70.1 & 62.2 & 68.3 & 78.1 & 56.1 & 28.3 & 74.5 & 72.2 & 77.4 & 62.1 & 68.3 & 27.8 & \cellcolor{gray!15}{63.2} \\
+% GLM-4.6V-Flash-9B & 58.3 & 56.9 & 58.0 & 51.9 & 51.3 & 36.1 & 19.2 & 36.0 & 35.0 & 41.3 & 36.5 & 35.0 & 11.1 & \cellcolor{gray!15}{40.5} \\
+% GLM-4.6V-106B-A12B & 73.7 & 64.6 & 61.2 & 58.5 & 67.7 & 47.6 & 27.2 & 48.3 & 52.0 & 55.1 & 46.8 & 39.6 & 25.2 & \cellcolor{gray!15}{51.4} \\
+% MINICPM-V-4.5 & 76.5 & 63.3 & 62.7 & 69.6 & 46.6 & 48.4 & 22.2 & 53.5 & 50.6 & 60.5 & 46.2 & 46.0 & 9.5 & \cellcolor{gray!15}{50.4} \\
+% \hline
+% \multicolumn{15}{l}{\emph{Open-source Video Models}} \\
+% VideoLLaMA3-7B & 51.1 & 55.0 & 47.1 & 52.8 & 53.8 & 28.5 & 13.9 & 43.1 & 50.0 & 49.0 & 39.7 & 42.7 & 4.9 & \cellcolor{gray!15}{40.9} \\
+% LLaVA-NeXT-Video & 8.6 & 18.3 & 10.6 & 18.3 & 32.9 & 7.5 & 2.6 & 17.0 & 19.8 & 21.6 & 15.1 & 21.5 & 2.1 & \cellcolor{gray!15}{15.1} \\
+% VideoR1-7B & 66.0 & 51.0 & 42.7 & 58.4 & 66.4 & 38.3 & 24.2 & 55.7 & 62.4 & 61.6 & 49.6 & 54.4 & 24.6 & \cellcolor{gray!15}{50.4} \\
+% MOLMO-2-8B & 27.0 & 51.0 & 30.8 & 48.6 & 63.0 & 22.1 & 11.3 & 34.5 & 46.9 & 43.7 & 35.7 & 35.8 & 11.9 & \cellcolor{gray!15}{35.6} \\
+% \hline
+% \Xhline{1pt}
+% \end{tabular}
+% }
+% \end{table*}
+
+
+
+% \begin{table*}[t]
+% \caption{Overall Performance. Scores are calculated as $0.1 \times \text{Logic} + 0.9 \times \text{Consistency}$. \textbf{Bold} indicates the best, \underline{Underline} indicates the second best.}
+% \label{tab:final_overall_results}
+% \centering
+% \resizebox{\textwidth}{!}{
+% \begin{tabular}{l | cc | ccccc | cccccc | c}\Xhline{1pt}
+% % \textbf{Model} & \multicolumn{2}{c|}{\textbf{L1: Perception}} & \multicolumn{5}{c|}{\textbf{L2: Understanding}} & \multicolumn{6}{c|}{\textbf{L3: Wearer-Grounded Reasoning}} & \textbf{Overall} \\
+% % \Xhline{1pt}
+
+% %  & \textbf{L1.1} & \textbf{L1.2} & \textbf{L2.1} & \textbf{L2.2} & \textbf{L2.3} & \textbf{L2.4} & \textbf{L2.5} & \textbf{L3.1} & \textbf{L3.2} & \textbf{L3.3} & \textbf{L3.4} & \textbf{L3.5} & \textbf{L3.6} & \textbf{AVG} \\
+
+% \multicolumn{1}{c|}{\textbf{Model}} & \multicolumn{2}{c|}{\textbf{L1: Perception}} & \multicolumn{5}{c|}{\textbf{L2: Understanding}} & \multicolumn{6}{c|}{\textbf{L3: Wearer-Grounded Reasoning}} & \textbf{Overall} \\
+
+%  & \textbf{L1.1} & \textbf{L1.2} & \textbf{L2.1} & \textbf{L2.2} & \textbf{L2.3} & \textbf{L2.4} & \textbf{L2.5} & \textbf{L3.1} & \textbf{L3.2} & \textbf{L3.3} & \textbf{L3.4} & \textbf{L3.5} & \textbf{L3.6} & \multicolumn{1}{c}{\textbf{AVG}} \\
+%  & \textbf{DTR} & \textbf{TG} & \textbf{DQ} & \textbf{CF} & \textbf{CLU} & \textbf{SSI} & \textbf{SI} & \textbf{DGII} & \textbf{BBIP} & \textbf{SBT} & \textbf{STR} & \textbf{CS} & \textbf{VTD} & \\
+
+% \Xhline{1pt}
+% \multicolumn{15}{l}{\emph{Closed-source Models}} \\
+% GPT-5.2 & 84.5 & \textbf{77.7} & 72.4 & 74.2 & \textbf{85.8} & \textbf{73.0} & \textbf{82.4} & \textbf{81.2} & \textbf{82.6} & 45.1 & \textbf{73.6} & \textbf{83.2} & 34.4 & \cellcolor{gray!15}{\textbf{73.1}} \\
+% Gemini-3-Pro & \textbf{91.4} & 75.8 & \textbf{82.7} & \textbf{82.8} & \underline{83.2} & \underline{70.2} & 81.6 & \underline{77.1} & \underline{79.5} & \textbf{46.2} & \underline{73.1} & \underline{80.6} & 23.0 & \cellcolor{gray!15}{\underline{72.9}} \\
+% Claude-Opus-4.5 & 86.9 & 71.6 & \underline{76.2} & \underline{77.4} & 72.3 & 60.5 & 80.1 & 75.2 & 79.2 & 44.8 & 71.3 & 75.7 & \underline{35.9} & \cellcolor{gray!15}{69.8} \\
+% Qwen3-VL-PLUS & \underline{89.1} & \underline{76.7} & 73.3 & 74.0 & 79.6 & 66.4 & \underline{82.4} & 73.9 & 78.1 & 43.8 & 70.4 & 78.6 & \textbf{38.9} & \cellcolor{gray!15}{71.2} \\
+% Seed-1.6 & 84.0 & 70.4 & 71.8 & 75.0 & 61.1 & 63.3 & 60.2 & 58.6 & 54.3 & \underline{46.0} & 55.4 & 57.6 & 35.1 & \cellcolor{gray!15}{61.0} \\
+% \hline
+% \multicolumn{15}{l}{\emph{Open-source Models}} \\
+% InternVL3-8B & 54.4 & 49.6 & 43.9 & 50.4 & 57.0 & 28.1 & 49.6 & 40.4 & 25.5 & 7.9 & 43.3 & 35.3 & 21.4 & \cellcolor{gray!15}{39.0} \\
+% InternVL3-38B & 68.5 & 54.8 & 38.3 & 53.6 & 54.2 & 32.8 & 50.5 & 42.3 & 36.3 & 16.2 & 42.6 & 44.3 & 11.2 & \cellcolor{gray!15}{42.0} \\
+% Qwen2.5-VL-3B & 65.9 & 52.1 & 48.2 & 59.5 & 61.8 & 29.3 & 51.6 & 49.0 & 47.9 & 15.2 & 41.0 & 44.1 & 7.5 & \cellcolor{gray!15}{44.1} \\
+% % Qwen2.5-VL-7B & 73.4 & 62.2 & 56.0 & 64.6 & 71.7 & 39.4 & 63.8 & 56.4 & 63.1 & 14.8 & 50.8 & 49.5 & \textbf{41.1} & \cellcolor{gray!15}{54.4} \\
+% {Qwen2.5-VL-7B} & 69.0 & 55.8 & 58.4 & 59.5 & 73.3 & 43.3 & 69.1 & 56.6 & 66.1 & 52.3 & 50.8 & 17.8 & 22.9 & \cellcolor{gray!15}{53.5}\\
+% Qwen2.5-VL-32B & 73.2 & 64.6 & 54.3 & 67.2 & 73.9 & 42.1 & 71.9 & 63.1 & 70.8 & 30.0 & 58.8 & 62.9 & 21.4 & \cellcolor{gray!15}{58.0} \\
+% Qwen3-VL-4B & 72.6 & 57.7 & 53.3 & 60.2 & 72.0 & 38.7 & 64.2 & 58.2 & 58.4 & 20.6 & 50.5 & 48.8 & 19.8 & \cellcolor{gray!15}{51.9} \\
+% Qwen3-VL-8B & 74.6 & 66.6 & 55.2 & 60.8 & 75.2 & 43.6 & 57.3 & 50.1 & 56.8 & 26.2 & 42.3 & 42.0 & 19.3 & \cellcolor{gray!15}{51.5} \\
+% Qwen3-VL-32B & 76.5 & 70.1 & 62.2 & 68.3 & 78.1 & 56.1 & 77.4 & 74.5 & 72.2 & 28.3 & 62.1 & 68.3 & 27.8 & \cellcolor{gray!15}{63.2} \\
+% GLM-4.6V-Flash-9B & 58.3 & 56.9 & 58.0 & 51.9 & 51.3 & 36.1 & 41.3 & 36.0 & 35.0 & 19.2 & 36.5 & 35.0 & 11.1 & \cellcolor{gray!15}{40.5} \\
+% GLM-4.6V-106B-A12B & 73.7 & 64.6 & 61.2 & 58.5 & 67.7 & 47.6 & 55.1 & 48.3 & 52.0 & 27.2 & 46.8 & 39.6 & 25.2 & \cellcolor{gray!15}{51.4} \\
+% MINICPM-V-4.5 & 76.5 & 63.3 & 62.7 & 69.6 & 46.6 & 48.4 & 60.5 & 53.5 & 50.6 & 22.2 & 46.2 & 46.0 & 9.5 & \cellcolor{gray!15}{50.4} \\
+% \hline
+% \multicolumn{15}{l}{\emph{Open-source Video Models}} \\
+% VideoLLaMA3-7B & 51.1 & 55.0 & 47.1 & 52.8 & 53.8 & 28.5 & 49.0 & 43.1 & 50.0 & 13.9 & 39.7 & 42.7 & 4.9 & \cellcolor{gray!15}{40.9} \\
+% LLaVA-NeXT-Video & 8.6 & 18.3 & 10.6 & 18.3 & 32.9 & 7.5 & 21.6 & 17.0 & 19.8 & 2.6 & 15.1 & 21.5 & 2.1 & \cellcolor{gray!15}{15.1} \\
+% VideoR1-7B & 66.0 & 51.0 & 42.7 & 58.4 & 66.4 & 38.3 & 61.6 & 55.7 & 62.4 & 24.2 & 49.6 & 54.4 & 24.6 & \cellcolor{gray!15}{50.4} \\
+% MOLMO-2-8B & 27.0 & 51.0 & 30.8 & 48.6 & 63.0 & 22.1 & 43.7 & 34.5 & 46.9 & 11.3 & 35.7 & 35.8 & 11.9 & \cellcolor{gray!15}{35.6} \\
+% \hline
+% \Xhline{1pt}
+% \end{tabular}
+% }
+% \end{table*}
+
+\begin{table*}[t]
+\caption{Overall VerEval scores. \textbf{Bold} indicates the best, \underline{Underline} indicates the second best.}
+\label{tab:final_overall_results}
+\centering
+\resizebox{\textwidth}{!}{
+\begin{tabular}{l | cc | ccccc | cccccc | c}\Xhline{1pt}
+\textbf{Model} & \multicolumn{2}{c|}{\textbf{L1: Perception}} & \multicolumn{5}{c|}{\textbf{L2: Understanding}} & \multicolumn{6}{c|}{\textbf{L3: Wearer-Grounded Reasoning}} & \textbf{Overall} \\
+ & \textbf{L1.1} & \textbf{L1.2} & \textbf{L2.1} & \textbf{L2.2} & \textbf{L2.3} & \textbf{L2.4} & \textbf{L2.5} & \textbf{L3.1} & \textbf{L3.2} & \textbf{L3.3} & \textbf{L3.4} & \textbf{L3.5} & \textbf{L3.6} & \textbf{AVG} \\
+ & \textbf{DTR} & \textbf{DTL} & \textbf{QTE} & \textbf{CF} & \textbf{CLU} & \textbf{SSI} & \textbf{WSI} & \textbf{HII} & \textbf{AIP} & \textbf{STS} & \textbf{STN} & \textbf{GOC} & \textbf{VTD} & \\
+\Xhline{1pt}
+\multicolumn{15}{l}{\emph{Closed-source Models}} \\
+GPT-5.2 & 84.5 & \textbf{77.7} & 72.4 & 74.2 & \textbf{85.8} & \textbf{73.0} & \textbf{82.4} & \textbf{81.2} & \textbf{82.6} & 45.1 & \textbf{73.6} & \textbf{83.2} & 34.4 & \cellcolor{gray!15}{\textbf{73.1}} \\
+Gemini-3-Pro & \textbf{91.4} & 75.8 & \textbf{82.7} & \textbf{82.8} & \underline{83.2} & \underline{70.2} & 81.6 & \underline{77.1} & \underline{79.5} & \textbf{46.2} & \underline{73.1} & \underline{80.6} & 23.0 & \cellcolor{gray!15}{\underline{72.9}} \\
+Claude-Opus-4.5 & 86.9 & 71.6 & \underline{76.2} & \underline{77.4} & 72.3 & 60.5 & 80.1 & 75.2 & 79.2 & 44.8 & 71.3 & 75.7 & \underline{35.9} & \cellcolor{gray!15}{69.8} \\
+Qwen3-VL-PLUS & \underline{89.1} & \underline{76.7} & 73.3 & 74.0 & 79.6 & 66.4 & \underline{82.4} & 73.9 & 78.1 & 43.8 & 70.4 & 78.6 & \textbf{38.9} & \cellcolor{gray!15}{71.2} \\
+Seed-1.6 & 84.0 & 70.4 & 71.8 & 75.0 & 61.1 & 63.3 & 60.2 & 58.6 & 54.3 & \underline{46.0} & 55.4 & 57.6 & 35.1 & \cellcolor{gray!15}{61.0} \\
+\hline
+\multicolumn{15}{l}{\emph{Open-source Models}} \\
+InternVL3.5-8B & 54.4 & 49.6 & 43.9 & 50.4 & 57.0 & 28.1 & 49.6 & 40.4 & 25.5 & 7.9 & 43.3 & 35.3 & 21.4 & \cellcolor{gray!15}{39.0} \\
+InternVL3.5-38B & 68.5 & 54.8 & 38.3 & 53.6 & 54.2 & 32.8 & 50.5 & 42.3 & 36.3 & 16.2 & 42.6 & 44.3 & 11.2 & \cellcolor{gray!15}{42.0} \\
+Qwen2.5-VL-3B & 65.9 & 52.1 & 48.2 & 59.5 & 61.8 & 29.3 & 51.6 & 49.0 & 47.9 & 15.2 & 41.0 & 44.1 & 7.5 & \cellcolor{gray!15}{44.1} \\
+{Qwen2.5-VL-7B} & 69.0 & 55.8 & 58.4 & 59.5 & 73.3 & 43.3 & 69.1 & 56.6 & 66.1 & 52.3 & 50.8 & 17.8 & 22.9 & \cellcolor{gray!15}{53.5}\\
+Qwen2.5-VL-32B & 73.2 & 64.6 & 54.3 & 67.2 & 73.9 & 42.1 & 71.9 & 63.1 & 70.8 & 30.0 & 58.8 & 62.9 & 21.4 & \cellcolor{gray!15}{58.0} \\
+Qwen3-VL-4B & 72.6 & 57.7 & 53.3 & 60.2 & 72.0 & 38.7 & 64.2 & 58.2 & 58.4 & 20.6 & 50.5 & 48.8 & 19.8 & \cellcolor{gray!15}{51.9} \\
+Qwen3-VL-8B & 74.6 & 66.6 & 55.2 & 60.8 & 75.2 & 43.6 & 57.3 & 50.1 & 56.8 & 26.2 & 42.3 & 42.0 & 19.3 & \cellcolor{gray!15}{51.5} \\
+Qwen3-VL-32B & 76.5 & 70.1 & 62.2 & 68.3 & 78.1 & 56.1 & 77.4 & 74.5 & 72.2 & 28.3 & 62.1 & 68.3 & 27.8 & \cellcolor{gray!15}{63.2} \\
+GLM-4.6V-Flash-9B & 58.3 & 56.9 & 58.0 & 51.9 & 51.3 & 36.1 & 41.3 & 36.0 & 35.0 & 19.2 & 36.5 & 35.0 & 11.1 & \cellcolor{gray!15}{40.5} \\
+GLM-4.6V-106B-A12B & 73.7 & 64.6 & 61.2 & 58.5 & 67.7 & 47.6 & 55.1 & 48.3 & 52.0 & 27.2 & 46.8 & 39.6 & 25.2 & \cellcolor{gray!15}{51.4} \\
+MINICPM-V-4.5 & 76.5 & 63.3 & 62.7 & 69.6 & 46.6 & 48.4 & 60.5 & 53.5 & 50.6 & 22.2 & 46.2 & 46.0 & 9.5 & \cellcolor{gray!15}{50.4} \\
+\hline
+\multicolumn{15}{l}{\emph{Open-source Video Models}} \\
+VideoLLaMA3-7B & 51.1 & 55.0 & 47.1 & 52.8 & 53.8 & 28.5 & 49.0 & 43.1 & 50.0 & 13.9 & 39.7 & 42.7 & 4.9 & \cellcolor{gray!15}{40.9} \\
+LLaVA-NeXT-Video & 8.6 & 18.3 & 10.6 & 18.3 & 32.9 & 7.5 & 21.6 & 17.0 & 19.8 & 2.6 & 15.1 & 21.5 & 2.1 & \cellcolor{gray!15}{15.1} \\
+VideoR1-7B & 66.0 & 51.0 & 42.7 & 58.4 & 66.4 & 38.3 & 61.6 & 55.7 & 62.4 & 24.2 & 49.6 & 54.4 & 24.6 & \cellcolor{gray!15}{50.4} \\
+MOLMO-2-8B & 27.0 & 51.0 & 30.8 & 48.6 & 63.0 & 22.1 & 43.7 & 34.5 & 46.9 & 11.3 & 35.7 & 35.8 & 11.9 & \cellcolor{gray!15}{35.6} \\
+\hline
+\Xhline{1pt}
+\end{tabular}
+}
+\end{table*}
+
+

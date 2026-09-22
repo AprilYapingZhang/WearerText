@@ -1,0 +1,109 @@
+\begin{figure*}[t]
+\centering
+\includegraphics[width=0.95\textwidth]{figures/figure_methods.pdf}
+\caption{
+Overview of the WearerText construction pipeline.
+We first define a three-level hierarchy for AI-glasses text understanding, then collect videos and generate layout-aware reference text and hybrid QA pairs.
+The multi-agent--hybrid verification pipeline then performs data quality control and refinement before final human validation.
+}
+\label{fig:pipeline}
+\end{figure*}
+
+\section{\dataset}
+\label{sec:methodology}
+
+ 
+ In this section, we present the design rationale and construction pipeline for {WearerText}, which supports scalable construction and verifiable annotation for wearer-centered scene text understanding.
+ 
+
+\subsection{Hierarchical Task Design}
+\label{sec:task_design}
+
+To systematically evaluate AI-glasses text understanding, we organize
+\dataset~into a three-level hierarchy with \tasknum tasks
+(Table~\ref{tab:ar-text-tasks}). The hierarchy follows the key
+capabilities discussed above: unstable text reading, wearer-view
+alignment, and goal-oriented text evidence reasoning.
+\textbf{L1: Text Perception} evaluates whether models can recognize and
+localize unstable or briefly visible text in dynamic AI-glasses videos.
+\textbf{L2: Contextual Understanding} tests whether models can ground relevant text within the wearer's surrounding context,
+including dense signage, multilingual text, slogans, and scene-level
+semantics. \textbf{L3: Wearer-Grounded Reasoning} further examines
+whether models can reason over viewpoint trajectories and temporal text
+evidence to support goal-oriented assistance, such as navigation and viewpoint-motion understanding.
+Together, these levels provide a diagnostic framework for identifying
+where current MLLMs fail across perception, contextual
+grounding, and wearer-centered reasoning.
+% \subsection{MAH-V Data synthesis framework}
+
+\subsection{Data Construction Pipeline}
+\label{sec:data_pipeline}
+
+To support scalable and grounded benchmark construction, 
+we design an integrated pipeline that includes video collection, 
+layout-aware reference text grounding, and hierarchical question--answer generation, 
+as illustrated in Figure~\ref{fig:pipeline}.
+
+\noindent\textbf{AI-glasses Video Collection}
+To capture the structural complexity of real-world interactions, 
+we utilize RayNeo AI Glasses to acquire a raw video dataset $\mathcal{V}$ consisting of 1,101 egocentric sequences. Each sequence, recorded at 30 FPS with a duration of 5--10 seconds, 
+captures short interaction primitives such as approaching an object or scanning a menu. Our reasoning tasks therefore target goal-oriented selection of text evidence within these clips. 
+For each video $v \in \mathcal{V}$, we simultaneously record a corresponding high-resolution global image $I_g$ to serve as a stable spatial reference for ground-truth text extraction. 
+Detailed scenario coverage, sub-domains, and wearable-video condition statistics are provided in Appendix~\ref{sec:dataset_statistics} and Table~\ref{tab:detailed_data_stats}.
+
+\noindent\textbf{Layout-aware reference text grounding.}
+Given the global image $I_g$, we construct a reference text $T_{\text{ref}}$ to serve as the factual anchor for subsequent question generation and verification. Specifically, we first apply OCR to obtain a raw token set $T_{\text{raw}} = \text{OCR}(I_g)$. To preserve the semantic reading order, we employ an LLM-based layout-aware transformation that reorganizes $T_{\text{raw}}$ into $T_{\text{layout}}$ using spatial coordinates $(x, y, w, h)$.
+Finally, human verification is performed to produce a high-quality “gold-standard” reference text $T_{\text{ref}}$.
+
+\noindent\textbf{Hybrid hierarchical QA generation.}
+Based on $(v, T_{\text{ref}})$ pairs and the predefined three-level task hierarchy, we generate question--answer instances as candidate pairs $(q_i, a_i)$, where $q_i$ denotes a wearer-centered question and $a_i$ denotes its reference answer. We use a hybrid strategy, $\mathcal{D}_{\text{hybrid}} = \mathcal{D}_{\text{auto}} \cup \mathcal{D}_{\text{man}}$. The automatic branch $\mathcal{D}_{\text{auto}}$ leverages MLLMs for scalable synthesis, while the manual branch $\mathcal{D}_{\text{man}}$ provides expert-curated instances to complement automated generation with greater diversity and quality assurance. This hybrid design aims to balance large-scale coverage with reasoning-oriented question diversity.
+
+
+
+\subsection{MAH-V: Multi-Agent--Hybrid Verification}
+
+The reliability of task construction is critical for evaluating situated reasoning. We introduce the \textbf{M}ulti-\textbf{A}gent--\textbf{H}ybrid \textbf{V}erification (MAH-V) pipeline, which combines a committee of specialized agents $\mathcal{A} = \{A_{\text{fact}}, A_{\text{logic}}, A_{\text{consistency}}, A_{\text{refine}}\}$ with a final human-verification stage to filter $\mathcal{D}_{\text{hybrid}}$. The agent committee runs the multi-agent quality control stage shown in Figure~\ref{fig:pipeline}, and its output is reviewed by expert annotators as described at the end of this section.
+
+% \noindent\textbf{Fact Checker Agent.}
+% The Fact Checker $A_{\text{fact}}$ validates incorrect information by ensuring strict accuracy. For a candidate pair $(q_i, a_i) \in \mathcal{D}_{\text{hybrid}}$, $A_{\text{fact}}$ takes the video $v$ and reference text $T_{\text{ref}}$ together as inputs to compute a factuality score $S_{fact} \in [0, 1]$:
+% \begin{equation}
+% S_{fact} = A_{\text{fact}}(q_i, a_i, v, T_{\text{ref}})
+% \end{equation}
+% It verifies whether numerical values or entities in $a_i$ exist within the verified $T_{\text{ref}}$. Instances where $S_{fact} < \tau$ (threshold) are marked for improvement.
+
+
+\noindent\textbf{Fact Checker Agent.}
+\revion{The Fact Checker $A_{\text{fact}}$ assesses the factual accuracy of each candidate pair $(q_i,a_i)\in\mathcal{D}_{\text{hybrid}}$. Given the video $v$ and the verified reference text $T_{\text{ref}}$, it produces a structured factual assessment:}
+\begin{equation}
+\revion{S_{fact}=A_{\text{fact}}(q_i,a_i,v,T_{\text{ref}}).}
+\end{equation}
+\revion{Here, $S_{fact}=(s_{fact},\mathcal{R}_{fact})$, where $s_{fact}\in[0,1]$ is the factuality score and $\mathcal{R}_{fact}$ contains concrete revision suggestions. The agent checks whether factual elements in the question and answer, particularly numerical values and entities, are supported by the video and $T_{\text{ref}}$. Candidates with $s_{fact}<\tau$ are marked for refinement, while $\mathcal{R}_{fact}$ identifies unsupported content and provides actionable suggestions for correcting the question or answer.}
+
+
+
+\noindent\textbf{Logic Checker Agent.}
+The Logic Checker $A_{\text{logic}}$ evaluates whether the reasoning process is grounded in the wearer-centered video context along three criteria.
+First, it assesses sequence necessity, determining whether temporal visual evidence is required to answer the question.
+Second, it performs indexical alignment by linking spatial references such as ``the sign on the left'' to specific video segments, ensuring that spatial descriptions are grounded in the wearer's viewpoint.
+Finally, it verifies temporal causality by checking that the textual cues supporting the answer have appeared in the observed video evidence, preventing reasoning that relies on unavailable information.
+
+\noindent\textbf{Consistency Agent.}
+To improve the correctness of the generated data, the {Consistency Agent} $A_{\text{consistency}}$ performs cross validation. It detects contradictions between the factual evidence retrieved by $A_{\text{fact}}$ and the reasoning logic proposed by $A_{\text{logic}}$. For example, if $A_{\text{fact}}$ confirms a bus departs at ``10:30'' but $A_{\text{logic}}$ infers a wait time based on ``10:35'', $A_{\text{consistency}}$ identifies the mismatch and generates a conflict report $\mathcal{R}_{\text{conf}}$.
+
+\noindent\textbf{Refinement Agent.}
+The {Refinement Agent} $A_{\text{refine}}$ serves as the final improvement step. Rather than simply discarding failed pairs, it uses the descriptive feedback and conflict reports $\{\mathcal{R}_{\text{conf}}, S_{fact}\}$ to improve the final QA pairs: $(q_i', a_i') = A_{\text{refine}}(q_i, a_i, \mathcal{R}_{\text{conf}}, S_{fact})$.
+
+
+\noindent\textbf{Human Verification and Final Dataset.}
+After multi-agent verification, the refined QA pairs are passed to expert human annotators for final validation. Three domain experts independently review each sample, assessing both factual accuracy and logical coherence. Only samples achieving unanimous approval or majority consensus (2 out of 3) are retained in the final benchmark. This human-in-the-loop validation achieves an inter-annotator agreement of $\kappa = 0.89$, indicating high consistency in our quality assessment protocol.
+
+
+\subsection{VerEval: Verified-Evidence Evaluation}
+We propose \textbf{Ver}ified-Evidence \textbf{Eval}uation (\textbf{VerEval}), which adapts the MAH-V agent architecture for open-ended answer evaluation. While MAH-V uses OCR reference text for quality control during benchmark construction, VerEval directly compares model predictions with ground truth.
+VerEval uses three scoring agents. The \textit{Fact Scorer} produces \(S_{fact}\) by checking whether factual anchors such as numbers, timestamps, and entities match the visual evidence and ground truth. The \textit{Logic Scorer} produces \(S_{logic}\) by evaluating whether the answer's reasoning is compatible with spatio-temporal constraints in the video. The \textit{Consistency Scorer} then produces \(S_{consist}\) by jointly reviewing the fact and logic judgments, their justifications, and the model answer. Thus, \(S_{consist}\) is the output of the consistency-scoring prompt, not a renamed factuality score.
+
+We use \(S_{fact}\) as an intermediate diagnostic signal, but exclude it from the final aggregate because its evidence is already checked by the consistency scorer and because the held-out human-alignment study showed lower discrimination for the raw fact score than for \(S_{consist}\) and \(S_{logic}\). The final VerEval score is therefore
+\begin{equation}
+S_{overall} = \lambda_1 \cdot S_{consist} + \lambda_2 \cdot S_{logic}.
+\end{equation}
+In this paper, we set \(\lambda_1=0.9\) and \(\lambda_2=0.1\), selected on held-out human-judged samples; detailed weighting results are provided in Appendix~\ref{sec:vereval_weighting_ablation}. We report the alignment between VerEval and human judgment in Figure~\ref{fig:score_distribution}, and provide all three scoring prompts in Appendix~\ref{scoring_prompt}.
