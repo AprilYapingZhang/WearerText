@@ -28,21 +28,9 @@ Each example pairs an egocentric video with a wearer-centered question and a
 reference answer. The question is grounded in what the wearer can see from the
 current viewpoint rather than in a standalone image.
 
-![Example frame from the WearerText test set](assets/preview-VID_20250425_153011.png)
 
-Example annotation from the public test split:
+![WearerText data examples across the three benchmark levels](assets/data-examples.png)
 
-```json
-{
-  "task_id": "L1.1",
-  "task_name": "Dynamic Text Recognition (DTR)",
-  "level": 1,
-  "question_id": "1_L1.1_05272d09",
-  "question": "我头顶上方那个白色的发光招牌，上面写的是什么字？",
-  "answer": "健康护理",
-  "video_path": "VID_20250425_153011.mp4"
-}
-```
 
 The three benchmark levels cover:
 
