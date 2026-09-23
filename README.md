@@ -1,8 +1,17 @@
 # WearerText
 
+**WearerText: Benchmarking Wearer-Centered Scene Text Understanding in AI-Glasses Videos**
+
+[Project page](https://aprilyapingzhang.github.io/WearerText/) ·
+[Dataset](https://huggingface.co/datasets/AI4Reading/WearerTextBench) ·
+[Paper](assets/WearerText.pdf) · [Evaluation guide](EVALUATION.md)
+
+
 **WearerText** is a benchmark for evaluating **wearer-centered scene text understanding in real-world AI-glasses videos**.
 
 Unlike conventional videos recorded with viewfinder feedback, AI-glasses videos are passively captured from the wearer's first-person perspective. Natural head movement often makes text off-center, fragmented, blurred, or only briefly visible. Models must therefore do more than recognize text: they must identify the relevant textual evidence, align it with the wearer's changing viewpoint, and reason according to the wearer's goal.
+
+
 
 ## Dataset Overview
 
